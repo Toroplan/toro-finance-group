@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Toro Finance Group — Demo</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="nav"><strong>TORO FINANCE GROUP</strong>
+<nav><a href="#services">Services</a><a href="#dashboard">Dashboard</a><a href="#apply">Demo</a></nav></header>
+<main>
+<section class="hero"><p class="eyebrow">MVP-01 • DEMO</p>
+<h1>Financing solutions, designed for a digital experience.</h1>
+<p>Prototype public de Toro Finance Group. Les fonctionnalités de financement réel ne sont pas activées.</p>
+<a class="button" href="#apply">Start demo application</a></section>
+<section id="services"><h2>Financing products</h2><div class="grid">
+<article><h3>Personal</h3><p>Personal financing — demo.</p></article>
+<article><h3>Business</h3><p>Professional financing — demo.</p></article>
+<article><h3>Real Estate</h3><p>Property financing — demo.</p></article>
+<article><h3>Auto</h3><p>Vehicle financing — demo.</p></article>
+<article><h3>Projects</h3><p>Project financing — demo.</p></article>
+</div></section>
+<section id="dashboard"><h2>Customer dashboard</h2><div class="card">
+<p><b>Demo customer:</b> John Test</p><p><b>Application:</b> TF-DEMO-000001</p>
+<p><b>Status:</b> <span class="status">SUBMITTED</span></p></div></section>
+<section id="apply"><h2>Demo application</h2><form id="demoForm">
+<label>First name<input required name="firstName"></label>
+<label>Last name<input required name="lastName"></label>
+<label>Country<select name="country"><option>Brazil</option><option>Germany</option><option>Lithuania</option><option>Italy</option><option>Spain</option><option>Portugal</option><option>Czech Republic</option><option>Slovakia</option></select></label>
+<label>Financing type<select name="product"><option>Personal</option><option>Business</option><option>Real Estate</option><option>Auto</option><option>Projects</option></select></label>
+<label>Demo amount<input required type="number" min="1" name="amount"></label>
+<button class="button" type="submit">Submit demo application</button></form>
+<p id="result" class="result" aria-live="polite"></p></section>
+</main>
+<footer>© 2026 Toro Finance Group — DEMO / Not a live financing service.</footer>
+<script src="app.js"></script>
+</body></html>

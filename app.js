@@ -1,0 +1,1 @@
+document.getElementById('demoForm').addEventListener('submit',function(e){e.preventDefault();const id='TF-DEMO-'+Math.floor(100000+Math.random()*900000);document.getElementById('result').textContent='Demo application submitted successfully. Reference: '+id;});
