@@ -1,36 +1,47 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Toro Finance Group — Demo</title><link rel="stylesheet" href="styles.css">
+<meta name="description" content="Toro Finance Group — solutions de financement et pré-demande en ligne.">
+<title>Toro Finance Group | Solutions de financement</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header class="nav"><strong>TORO FINANCE GROUP</strong>
-<nav><a href="#services">Services</a><a href="#dashboard">Dashboard</a><a href="#apply">Demo</a></nav></header>
-<main>
-<section class="hero"><p class="eyebrow">MVP-01 • DEMO</p>
-<h1>Financing solutions, designed for a digital experience.</h1>
-<p>Prototype public de Toro Finance Group. Les fonctionnalités de financement réel ne sont pas activées.</p>
-<a class="button" href="#apply">Start demo application</a></section>
-<section id="services"><h2>Financing products</h2><div class="grid">
-<article><h3>Personal</h3><p>Personal financing — demo.</p></article>
-<article><h3>Business</h3><p>Professional financing — demo.</p></article>
-<article><h3>Real Estate</h3><p>Property financing — demo.</p></article>
-<article><h3>Auto</h3><p>Vehicle financing — demo.</p></article>
-<article><h3>Projects</h3><p>Project financing — demo.</p></article>
+<header class="nav">
+<a class="brand" href="#top">TORO <span>FINANCE GROUP</span></a>
+<nav><a href="#services">Solutions</a><a href="#process">Processus</a><a href="#apply">Demande</a><a href="#dashboard">Suivi</a></nav>
+<select id="language" aria-label="Langue"><option value="fr">FR</option><option value="en">EN</option></select>
+</header>
+<main id="top">
+<section class="hero">
+<div><p class="eyebrow">TORO FINANCE GROUP</p><h1>Des solutions de financement pensées pour vos projets.</h1>
+<p class="lead">Une expérience digitale simple pour présenter votre projet, effectuer une pré-demande et suivre son statut.</p>
+<div class="actions"><a class="button" href="#apply">Faire une demande</a><a class="button secondary" href="#services">Nos solutions</a></div>
+<p class="notice">Site de présentation et de pré-demande. Toute décision de financement est soumise à l'étude du dossier et aux critères applicables.</p></div>
+<aside class="hero-card"><b>TORO</b><h2>Force. Vision. Performance.</h2><p>Une approche structurée, transparente et orientée projet.</p></aside>
+</section>
+<section id="services"><p class="eyebrow">NOS SOLUTIONS</p><h2>Un financement adapté à chaque objectif</h2>
+<div class="grid">
+<article><b>01</b><h3>Prêt personnel</h3><p>Pour des besoins personnels et des projets du quotidien.</p></article>
+<article><b>02</b><h3>Professionnel</h3><p>Pour accompagner une activité, un investissement ou un besoin de trésorerie.</p></article>
+<article><b>03</b><h3>Immobilier</h3><p>Pour les projets d'acquisition ou d'investissement immobilier.</p></article>
+<article><b>04</b><h3>Automobile</h3><p>Pour l'acquisition d'un véhicule selon les conditions applicables.</p></article>
+<article><b>05</b><h3>Projet & investissement</h3><p>Pour structurer une demande liée à un projet spécifique.</p></article>
 </div></section>
-<section id="dashboard"><h2>Customer dashboard</h2><div class="card">
-<p><b>Demo customer:</b> John Test</p><p><b>Application:</b> TF-DEMO-000001</p>
-<p><b>Status:</b> <span class="status">SUBMITTED</span></p></div></section>
-<section id="apply"><h2>Demo application</h2><form id="demoForm">
-<label>First name<input required name="firstName"></label>
-<label>Last name<input required name="lastName"></label>
-<label>Country<select name="country"><option>Brazil</option><option>Germany</option><option>Lithuania</option><option>Italy</option><option>Spain</option><option>Portugal</option><option>Czech Republic</option><option>Slovakia</option></select></label>
-<label>Financing type<select name="product"><option>Personal</option><option>Business</option><option>Real Estate</option><option>Auto</option><option>Projects</option></select></label>
-<label>Demo amount<input required type="number" min="1" name="amount"></label>
-<button class="button" type="submit">Submit demo application</button></form>
-<p id="result" class="result" aria-live="polite"></p></section>
+<section id="process" class="alt"><p class="eyebrow">PROCESSUS</p><h2>Une démarche en 3 étapes</h2>
+<div class="steps"><div><b>01</b><h3>Votre demande</h3><p>Présentez votre profil et votre besoin.</p></div><div><b>02</b><h3>Étude du dossier</h3><p>Les informations sont examinées selon les critères applicables.</p></div><div><b>03</b><h3>Réponse</h3><p>Vous recevez une réponse ou une demande d'informations complémentaires.</p></div></div></section>
+<section id="apply"><p class="eyebrow">PRÉ-DEMANDE</p><h2>Présentez votre projet</h2>
+<div class="apply-grid"><form id="demoForm">
+<div class="form-grid"><label>Prénom<input required name="firstName"></label><label>Nom<input required name="lastName"></label></div>
+<div class="form-grid"><label>Pays<select name="country"><option>France</option><option>Belgique</option><option>Allemagne</option><option>Italie</option><option>Lituanie</option><option>Espagne</option><option>Portugal</option><option>Autre</option></select></label>
+<label>Financement<select name="product"><option>Prêt personnel</option><option>Professionnel</option><option>Immobilier</option><option>Automobile</option><option>Projet / investissement</option></select></label></div>
+<label>Montant souhaité<input id="amount" required type="number" min="1" step="1" name="amount" placeholder="Ex. 10000"></label>
+<label class="check"><input required type="checkbox" name="consent"><span>J'accepte que ces informations soient utilisées pour traiter cette pré-demande.</span></label>
+<button class="button" type="submit">Envoyer la pré-demande</button><p id="result" class="result" aria-live="polite"></p></form>
+<aside class="estimate"><p class="eyebrow">SIMULATION</p><div id="estimateAmount">€ 0</div><p>Montant demandé</p><p class="small">Cette estimation est indicative et ne constitue pas une offre de crédit.</p></aside></div></section>
+<section id="dashboard" class="alt"><p class="eyebrow">SUIVI</p><h2>Votre dossier</h2>
+<div class="dashboard"><div><span>Référence</span><strong id="dashRef">—</strong></div><div><span>Produit</span><strong id="dashProduct">—</strong></div><div><span>Montant</span><strong id="dashAmount">—</strong></div><div><span>Statut</span><strong id="dashStatus">Aucune demande</strong></div></div></section>
 </main>
-<footer>© 2026 Toro Finance Group — DEMO / Not a live financing service.</footer>
+<footer><strong>TORO FINANCE GROUP</strong><p>© 2026 Toro Finance Group.</p><p class="small">Aucune offre de crédit n'est conclue automatiquement via ce site. Les services financiers sont fournis uniquement lorsqu'ils sont légalement autorisés et selon les réglementations applicables.</p></footer>
 <script src="app.js"></script>
 </body></html>
