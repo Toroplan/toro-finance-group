@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Toro Finance Group — solutions de financement et pré-demande en ligne.">
+<title>Toro Finance Group | Solutions de financement</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="nav">
+<a class="brand" href="#top">TORO <span>FINANCE GROUP</span></a>
+<nav>
+<a href="#services" data-i18n="navSolutions">Solutions</a>
+<a href="#process" data-i18n="navProcess">Processus</a>
+<a href="#apply" data-i18n="navApply">Demande</a>
+<a href="#dashboard" data-i18n="navTrack">Suivi</a>
+</nav>
+<select id="language" aria-label="Langue">
+<option value="fr">FR</option><option value="en">EN</option>
+</select>
+</header>
+
+<main id="top">
+<section class="hero">
+<div>
+<p class="eyebrow">TORO FINANCE GROUP</p>
+<h1 data-i18n="heroTitle">Des solutions de financement pensées pour vos projets.</h1>
+<p class="lead" data-i18n="heroLead">Une expérience digitale simple pour présenter votre projet, effectuer une pré-demande et suivre son statut.</p>
+<div class="actions">
+<a class="button" href="#apply" data-i18n="applyButton">Faire une demande</a>
+<a class="button secondary" href="#services" data-i18n="solutionsButton">Nos solutions</a>
+</div>
+<p class="notice" data-i18n="notice">Site de présentation et de pré-demande. Toute décision de financement est soumise à l'étude du dossier et aux critères applicables.</p>
+</div>
+<aside class="hero-card">
+<b>TORO</b>
+<h2 data-i18n="heroCardTitle">Force. Vision. Performance.</h2>
+<p data-i18n="heroCardText">Une approche structurée, transparente et orientée projet.</p>
+</aside>
+</section>
+
+<section id="services">
+<p class="eyebrow" data-i18n="solutionsEyebrow">NOS SOLUTIONS</p>
+<h2 data-i18n="solutionsTitle">Un financement adapté à chaque objectif</h2>
+<div class="grid">
+<article><b>01</b><h3 data-i18n="personalTitle">Prêt personnel</h3><p data-i18n="personalText">Pour des besoins personnels et des projets du quotidien.</p></article>
+<article><b>02</b><h3 data-i18n="businessTitle">Professionnel</h3><p data-i18n="businessText">Pour accompagner une activité, un investissement ou un besoin de trésorerie.</p></article>
+<article><b>03</b><h3 data-i18n="realEstateTitle">Immobilier</h3><p data-i18n="realEstateText">Pour les projets d'acquisition ou d'investissement immobilier.</p></article>
+<article><b>04</b><h3 data-i18n="autoTitle">Automobile</h3><p data-i18n="autoText">Pour l'acquisition d'un véhicule selon les conditions applicables.</p></article>
+<article><b>05</b><h3 data-i18n="projectTitle">Projet & investissement</h3><p data-i18n="projectText">Pour structurer une demande liée à un projet spécifique.</p></article>
+</div>
+</section>
+
+<section id="process" class="alt">
+<p class="eyebrow" data-i18n="processEyebrow">PROCESSUS</p>
+<h2 data-i18n="processTitle">Une démarche en 3 étapes</h2>
+<div class="steps">
+<div><b>01</b><h3 data-i18n="step1Title">Votre demande</h3><p data-i18n="step1Text">Présentez votre profil et votre besoin.</p></div>
+<div><b>02</b><h3 data-i18n="step2Title">Étude du dossier</h3><p data-i18n="step2Text">Les informations sont examinées selon les critères applicables.</p></div>
+<div><b>03</b><h3 data-i18n="step3Title">Réponse</h3><p data-i18n="step3Text">Vous recevez une réponse ou une demande d'informations complémentaires.</p></div>
+</div>
+</section>
+
+<section id="apply">
+<p class="eyebrow" data-i18n="applyEyebrow">PRÉ-DEMANDE</p>
+<h2 data-i18n="applyTitle">Présentez votre projet</h2>
+<div class="apply-grid">
+<form id="demoForm">
+<div class="form-grid">
+<label><span data-i18n="firstName">Prénom</span><input required name="firstName" autocomplete="given-name"></label>
+<label><span data-i18n="lastName">Nom</span><input required name="lastName" autocomplete="family-name"></label>
+</div>
+<div class="form-grid">
+<label><span data-i18n="country">Pays</span>
+<select name="country">
+<option>France</option><option>Belgique</option><option>Allemagne</option><option>Italie</option><option>Lituanie</option><option>Espagne</option><option>Portugal</option><option>Autre</option>
+</select></label>
+<label><span data-i18n="product">Financement</span>
+<select name="product">
+<option data-i18n="optPersonal">Prêt personnel</option>
+<option data-i18n="optBusiness">Professionnel</option>
+<option data-i18n="optRealEstate">Immobilier</option>
+<option data-i18n="optAuto">Automobile</option>
+<option data-i18n="optProject">Projet / investissement</option>
+</select></label>
+</div>
+<label><span data-i18n="amountLabel">Montant souhaité</span><input id="amount" required type="number" min="1" step="1" name="amount" inputmode="numeric" placeholder="Ex. 10000"></label>
+<label class="check"><input required type="checkbox" name="consent"><span data-i18n="consent">J'accepte que ces informations soient utilisées pour traiter cette pré-demande.</span></label>
+<button class="button" type="submit" data-i18n="submit">Envoyer la pré-demande</button>
+<p id="result" class="result" aria-live="polite"></p>
+</form>
+<aside class="estimate">
+<p class="eyebrow" data-i18n="simulation">SIMULATION</p>
+<div id="estimateAmount">€ 0</div>
+<p data-i18n="requestedAmount">Montant demandé</p>
+<p class="small" data-i18n="simulationNote">Cette estimation est indicative et ne constitue pas une offre de crédit.</p>
+</aside>
+</div>
+</section>
+
+<section id="dashboard" class="alt">
+<p class="eyebrow" data-i18n="trackEyebrow">SUIVI</p>
+<h2 data-i18n="trackTitle">Votre dossier</h2>
+<div class="dashboard">
+<div><span data-i18n="reference">Référence</span><strong id="dashRef">—</strong></div>
+<div><span data-i18n="productDash">Produit</span><strong id="dashProduct">—</strong></div>
+<div><span data-i18n="amountDash">Montant</span><strong id="dashAmount">—</strong></div>
+<div><span data-i18n="statusDash">Statut</span><strong id="dashStatus">Aucune demande</strong></div>
+</div>
+<p class="small track-note" data-i18n="localNote">Le suivi affiché ici est conservé uniquement dans ce navigateur. Il ne constitue pas un système de suivi serveur.</p>
+</section>
+</main>
+
+<footer>
+<strong>TORO FINANCE GROUP</strong>
+<p>© 2026 Toro Finance Group.</p>
+<p class="small" data-i18n="footerNote">Aucune offre de crédit n'est conclue automatiquement via ce site. Les services financiers sont fournis uniquement lorsqu'ils sont légalement autorisés et selon les réglementations applicables.</p>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
