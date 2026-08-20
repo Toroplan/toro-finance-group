@@ -22,6 +22,7 @@ function createReference() {
 if (amount) {
   amount.addEventListener("input", () => {
     const estimate = $("#estimateAmount");
+
     if (estimate) {
       estimate.textContent = formatAmount(amount.value);
     }
@@ -29,7 +30,8 @@ if (amount) {
 }
 
 if (form) {
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", () => {
+
     const reference = createReference();
 
     emailReference.value = reference;
@@ -39,7 +41,7 @@ if (form) {
     const message =
 `Bonjour Toro Finance Group,
 
-Je viens d'effectuer une pré-demande de financement sur votre site.
+Je viens d'effectuer une pré-demande de financement.
 
 Référence : ${reference}
 Prénom : ${data.get("firstName")}
@@ -51,23 +53,24 @@ Montant souhaité : ${formatAmount(data.get("amount"))}
 
 Je comprends qu'il s'agit d'une pré-demande et qu'aucun financement n'est accordé automatiquement.`;
 
-    const whatsappUrl =
+    whatsappButton.href =
       "https://wa.me/491787401108?text=" +
       encodeURIComponent(message);
 
-    whatsappButton.href = whatsappUrl;
     whatsappButton.hidden = false;
 
-    const dashRef = $("#dashRef");
-    const dashProduct = $("#dashProduct");
-    const dashAmount = $("#dashAmount");
-    const dashStatus = $("#dashStatus");
+    if ($("#dashRef"))
+      $("#dashRef").textContent = reference;
 
-    if (dashRef) dashRef.textContent = reference;
-    if (dashProduct) dashProduct.textContent = data.get("product");
-    if (dashAmount) dashAmount.textContent =
-      formatAmount(data.get("amount"));
-    if (dashStatus) dashStatus.textContent = "Demande envoyée";
+    if ($("#dashProduct"))
+      $("#dashProduct").textContent = data.get("product");
+
+    if ($("#dashAmount"))
+      $("#dashAmount").textContent =
+        formatAmount(data.get("amount"));
+
+    if ($("#dashStatus"))
+      $("#dashStatus").textContent = "Demande transmise";
 
     localStorage.setItem(
       "toroApplication",
@@ -75,18 +78,20 @@ Je comprends qu'il s'agit d'une pré-demande et qu'aucun financement n'est accor
         reference,
         product: data.get("product"),
         amount: data.get("amount"),
-        status: "Demande envoyée"
+        status: "Demande transmise"
       })
     );
 
     result.textContent =
-      `Votre demande porte la référence ${reference}. ` +
-      `Elle va être transmise. Vous pouvez également l'envoyer sur WhatsApp.`;
+      `Votre pré-demande ${reference} a été préparée. ` +
+      `Elle est transmise à Toro Finance Group. ` +
+      `Vous pouvez maintenant l'envoyer également sur WhatsApp.`;
 
     /*
       IMPORTANT :
-      On laisse le navigateur effectuer le POST normal vers FormSubmit.
-      Cela permet à FormSubmit de recevoir réellement la demande.
+      Le formulaire possède target="formSubmitFrame".
+      FormSubmit reçoit donc la demande sans quitter la page.
+      Le bouton WhatsApp reste visible.
     */
   });
 }
@@ -97,14 +102,22 @@ try {
   );
 
   if (saved) {
-    if ($("#dashRef")) $("#dashRef").textContent = saved.reference;
+    if ($("#dashRef"))
+      $("#dashRef").textContent = saved.reference;
+
     if ($("#dashProduct"))
       $("#dashProduct").textContent = saved.product;
+
     if ($("#dashAmount"))
-      $("#dashAmount").textContent = formatAmount(saved.amount);
+      $("#dashAmount").textContent =
+        formatAmount(saved.amount);
+
     if ($("#dashStatus"))
       $("#dashStatus").textContent = saved.status;
   }
 } catch (error) {
-  console.warn("Impossible de restaurer le suivi local.", error);
+  console.warn(
+    "Impossible de restaurer le suivi local.",
+    error
+  );
 }
