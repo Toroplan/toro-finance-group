@@ -1,14 +1,12 @@
 <form id="demoForm"
       action="https://formsubmit.co/petrasbarisas08@gmail.com"
-      method="POST">
+      method="POST"
+      target="formSubmitFrame">
 
   <input type="hidden" name="_subject"
          value="Nouvelle pré-demande — Toro Finance Group">
-
   <input type="hidden" name="_template" value="table">
-
   <input type="hidden" name="_captcha" value="true">
-
   <input type="hidden" name="reference" id="emailReference">
 
   <div class="form-grid">
@@ -66,10 +64,7 @@
 
   <label class="check">
     <input required type="checkbox" name="consent">
-    <span>
-      J'accepte que ces informations soient utilisées
-      pour traiter cette pré-demande.
-    </span>
+    <span>J'accepte que ces informations soient utilisées pour traiter cette pré-demande.</span>
   </label>
 
   <button class="button" type="submit">
@@ -86,4 +81,8 @@
      hidden>
     Envoyer aussi sur WhatsApp
   </a>
+
+  <iframe name="formSubmitFrame"
+          title="Transmission de la demande"
+          hidden></iframe>
 </form>
