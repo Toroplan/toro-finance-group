@@ -3,7 +3,6 @@ const $ = (selector) => document.querySelector(selector);
 const amount = $("#amount");
 const form = $("#demoForm");
 const result = $("#result");
-const whatsappButton = $("#whatsappButton");
 const emailReference = $("#emailReference");
 
 const formatAmount = (value) =>
@@ -31,39 +30,17 @@ if (amount) {
 
 if (form) {
   form.addEventListener("submit", () => {
-
     const reference = createReference();
 
     emailReference.value = reference;
 
     const data = new FormData(form);
 
-    const message =
-`Bonjour Toro Finance Group,
-
-Je viens d'effectuer une pré-demande de financement.
-
-Référence : ${reference}
-Prénom : ${data.get("firstName")}
-Nom : ${data.get("lastName")}
-E-mail : ${data.get("email")}
-Pays : ${data.get("country")}
-Financement : ${data.get("product")}
-Montant souhaité : ${formatAmount(data.get("amount"))}
-
-Je comprends qu'il s'agit d'une pré-demande et qu'aucun financement n'est accordé automatiquement.`;
-
-    whatsappButton.href =
-      "https://wa.me/491787401108?text=" +
-      encodeURIComponent(message);
-
-    whatsappButton.hidden = false;
-
     if ($("#dashRef"))
       $("#dashRef").textContent = reference;
 
     if ($("#dashProduct"))
-      $("#dashProduct").textContent = data.get("product");
+      $("#dashProduct").textContent = data.get("product") || "—";
 
     if ($("#dashAmount"))
       $("#dashAmount").textContent =
@@ -83,16 +60,8 @@ Je comprends qu'il s'agit d'une pré-demande et qu'aucun financement n'est accor
     );
 
     result.textContent =
-      `Votre pré-demande ${reference} a été préparée. ` +
-      `Elle est transmise à Toro Finance Group. ` +
-      `Vous pouvez maintenant l'envoyer également sur WhatsApp.`;
-
-    /*
-      IMPORTANT :
-      Le formulaire possède target="formSubmitFrame".
-      FormSubmit reçoit donc la demande sans quitter la page.
-      Le bouton WhatsApp reste visible.
-    */
+      `Votre pré-demande ${reference} est en cours de transmission. ` +
+      `Vous pouvez également contacter Toro Finance Group sur WhatsApp.`;
   });
 }
 
