@@ -1,3 +1,8 @@
+/* =========================================
+   TORO FINANCE GROUP
+   RELooking — structure originale conservée
+========================================= */
+
 * {
     box-sizing: border-box;
 }
@@ -7,36 +12,32 @@ html {
 }
 
 :root {
-    --navy: #061638;
-    --navy-2: #0b2858;
-    --navy-3: #102f63;
-
-    --gold: #d7a33a;
-    --gold-light: #f0c45b;
-    --gold-dark: #b98522;
+    --navy: #071a3a;
+    --navy-light: #0d2854;
+    --gold: #d5a33a;
+    --gold-light: #edc45e;
 
     --white: #ffffff;
-    --bg: #f4f6fa;
-    --card: #ffffff;
+    --background: #f5f7fb;
+    --text: #182238;
+    --muted: #687286;
 
-    --text: #101a2f;
-    --muted: #667085;
-    --line: #e2e7ef;
+    --border: #e2e6ee;
 
-    --shadow: 0 18px 50px rgba(6, 22, 56, 0.12);
+    --shadow: 0 10px 30px rgba(7, 26, 58, 0.08);
 }
 
 body {
     margin: 0;
-    font-family: Inter, Arial, sans-serif;
-    line-height: 1.55;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
     color: var(--text);
-    background: var(--bg);
+    background: var(--background);
 }
 
-/* =========================
+/* =========================================
    NAVIGATION
-========================= */
+========================================= */
 
 .nav {
     position: sticky;
@@ -45,14 +46,14 @@ body {
 
     display: flex;
     align-items: center;
-    gap: 30px;
 
-    padding: 15px 5%;
+    padding: 16px 5%;
 
-    background: rgba(5, 20, 52, 0.97);
-    backdrop-filter: blur(12px);
+    background: var(--navy);
 
-    border-bottom: 1px solid rgba(215, 163, 58, 0.35);
+    border-bottom: 2px solid var(--gold);
+
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
 }
 
 .brand {
@@ -60,110 +61,654 @@ body {
     text-decoration: none;
 
     font-weight: 900;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
 
     white-space: nowrap;
 }
 
 .brand span {
-    display: block;
+    color: var(--gold-light);
 
-    color: var(--gold);
     font-size: 0.68rem;
     font-weight: 600;
 
-    letter-spacing: 0.18em;
-    margin-top: -3px;
+    letter-spacing: 0.14em;
 }
 
 .nav nav {
     display: flex;
-    gap: 27px;
+    gap: 24px;
 
-    flex: 1;
-    justify-content: center;
+    margin-left: auto;
 }
 
 .nav nav a {
-    position: relative;
-
     color: var(--white);
+
     text-decoration: none;
 
-    font-size: 0.94rem;
+    font-size: 0.95rem;
     font-weight: 600;
 
-    opacity: 0.95;
-
-    transition: 0.2s;
+    transition: color 0.2s ease;
 }
 
 .nav nav a:hover {
     color: var(--gold-light);
 }
 
-.nav nav a::after {
-    content: "";
+/* =========================================
+   HERO
+========================================= */
 
-    position: absolute;
-    left: 0;
-    bottom: -8px;
+.hero {
+    max-width: 1200px;
 
-    width: 0;
-    height: 2px;
+    margin: 0 auto;
 
-    background: var(--gold);
+    padding: 80px 5%;
 
-    transition: width 0.2s;
+    display: grid;
+
+    grid-template-columns: 1.4fr 0.8fr;
+
+    gap: 50px;
+
+    align-items: center;
 }
 
-.nav nav a:hover::after {
-    width: 100%;
+.hero > div {
+    min-width: 0;
 }
 
-.nav select {
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
+.eyebrow {
+    margin-bottom: 10px;
 
-    padding: 9px 12px;
+    color: var(--gold-dark, #b88320);
 
-    background: var(--navy-2);
+    font-size: 0.78rem;
+    font-weight: 800;
+
+    letter-spacing: 0.15em;
+}
+
+.hero h1 {
+    margin: 10px 0 20px;
+
+    color: var(--navy);
+
+    font-size: clamp(2.6rem, 6vw, 4.8rem);
+
+    line-height: 1.05;
+
+    letter-spacing: -0.04em;
+}
+
+.lead {
+    max-width: 700px;
+
+    color: var(--muted);
+
+    font-size: 1.12rem;
+}
+
+.actions {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    margin-top: 28px;
+}
+
+/* =========================================
+   BOUTONS
+========================================= */
+
+.button {
+    display: inline-block;
+
+    padding: 13px 21px;
+
+    border: 1px solid var(--gold);
+
+    border-radius: 7px;
+
+    background: var(--navy);
+
     color: var(--white);
+
+    text-decoration: none;
+
+    font: inherit;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.button:hover {
+    background: var(--navy-light);
+
+    color: var(--gold-light);
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 7px 18px rgba(7, 26, 58, 0.16);
+}
+
+.button.secondary {
+    background: transparent;
+
+    color: var(--navy);
+
+    border-color: var(--navy);
+}
+
+.button.secondary:hover {
+    background: var(--navy);
+
+    color: var(--white);
+}
+
+/* Le bouton WhatsApp garde son fonctionnement */
+#whatsappButton {
+    margin-top: 4px;
+}
+
+/* =========================================
+   NOTICE
+========================================= */
+
+.notice {
+    max-width: 750px;
+
+    margin-top: 24px;
+
+    color: var(--muted);
+
+    font-size: 0.82rem;
+}
+
+/* =========================================
+   HERO CARD
+========================================= */
+
+.hero-card {
+    padding: 30px;
+
+    background: var(--navy);
+
+    border: 1px solid var(--gold);
+
+    border-radius: 12px;
+
+    color: var(--white);
+
+    box-shadow: var(--shadow);
+}
+
+.hero-card b {
+    color: var(--gold-light);
+
+    letter-spacing: 0.15em;
+}
+
+.hero-card h2 {
+    margin: 15px 0;
+
+    color: var(--white);
+
+    font-size: 1.65rem;
+}
+
+.hero-card p {
+    color: #d6deeb;
+}
+
+/* =========================================
+   SECTIONS
+========================================= */
+
+section {
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 70px 5%;
+}
+
+section > h2 {
+    margin-top: 6px;
+
+    color: var(--navy);
+
+    font-size: clamp(2rem, 4vw, 3rem);
+
+    line-height: 1.15;
+}
+
+.alt {
+    max-width: none;
+
+    background: #edf1f6;
+
+    border-top: 1px solid var(--border);
+
+    border-bottom: 1px solid var(--border);
+}
+
+/* =========================================
+   SERVICES
+========================================= */
+
+.grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(210px, 1fr));
+
+    gap: 16px;
+
+    margin-top: 30px;
+}
+
+.grid article {
+    min-height: 180px;
+
+    padding: 25px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-top: 3px solid var(--gold);
+
+    border-radius: 10px;
+
+    box-shadow: 0 5px 18px rgba(7, 26, 58, 0.05);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.grid article:hover {
+    transform: translateY(-3px);
+
+    box-shadow: var(--shadow);
+}
+
+.grid article b {
+    color: var(--gold);
+
+    font-size: 0.8rem;
+}
+
+.grid article h3 {
+    margin: 10px 0;
+
+    color: var(--navy);
+}
+
+.grid article p {
+    margin: 0;
+
+    color: var(--muted);
+}
+
+/* =========================================
+   PROCESS
+========================================= */
+
+.steps {
+    max-width: 1100px;
+
+    margin: 30px auto 0;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 16px;
+}
+
+.steps > div {
+    padding: 25px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    box-shadow: 0 5px 18px rgba(7, 26, 58, 0.05);
+}
+
+.steps b {
+    color: var(--gold);
+}
+
+/* =========================================
+   FORMULAIRE
+========================================= */
+
+.apply-grid {
+    display: grid;
+
+    grid-template-columns:
+        1.25fr 0.75fr;
+
+    gap: 20px;
+
+    align-items: start;
+}
+
+form {
+    padding: 27px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-top: 3px solid var(--gold);
+
+    border-radius: 10px;
+
+    box-shadow: var(--shadow);
+}
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 16px;
+}
+
+label {
+    display: grid;
+
+    gap: 7px;
+
+    margin-bottom: 16px;
+
+    font-weight: 600;
+}
+
+input,
+select {
+    width: 100%;
+
+    padding: 12px 13px;
+
+    border: 1px solid #ccd3df;
+
+    border-radius: 7px;
+
+    background: var(--white);
+
+    color: var(--text);
 
     font: inherit;
 }
 
-/* =========================
-   HERO
-========================= */
+input:focus,
+select:focus {
+    outline: 2px solid rgba(213, 163, 58, 0.35);
 
-.hero {
-    position: relative;
+    border-color: var(--gold);
+}
 
-    min-height: 650px;
+.check {
+    display: grid;
 
-    padding: 90px 5%;
+    grid-template-columns: auto 1fr;
+
+    gap: 9px;
+
+    align-items: start;
+
+    font-weight: 400;
+}
+
+.check input {
+    width: auto;
+
+    margin-top: 5px;
+}
+
+.result {
+    min-height: 22px;
+
+    color: var(--navy);
+
+    font-weight: 700;
+}
+
+/* =========================================
+   SIMULATION
+========================================= */
+
+.estimate {
+    position: sticky;
+
+    top: 95px;
+
+    padding: 28px;
+
+    background: var(--navy);
+
+    border: 1px solid var(--gold);
+
+    border-radius: 10px;
+
+    color: var(--white);
+
+    box-shadow: var(--shadow);
+}
+
+.estimate .eyebrow {
+    color: var(--gold-light);
+}
+
+#estimateAmount {
+    margin: 12px 0;
+
+    color: var(--gold-light);
+
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+
+    font-weight: 800;
+
+    line-height: 1;
+}
+
+.estimate p {
+    color: #d4dceb;
+}
+
+/* =========================================
+   SUIVI
+========================================= */
+
+.dashboard {
+    max-width: 1100px;
+
+    margin: 30px auto 0;
 
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
 
-    gap: 55px;
-    align-items: center;
+    grid-template-columns:
+        repeat(4, 1fr);
 
-    overflow: hidden;
+    gap: 14px;
+}
 
-    background:
-        radial-gradient(
-            circle at 78% 38%,
-            rgba(215, 163, 58, 0.22),
-            transparent 20%
-        ),
-        radial-gradient(
-            circle at 90% 75%,
-            rgba(215, 163, 58, 0.12),
-            transparent 25%
-        ),
-        linear-gradient(
-            120deg,
-            #04132f 0%,
-            #
+.dashboard > div {
+    padding: 21px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    box-shadow: 0 5px 18px rgba(7, 26, 58, 0.05);
+}
+
+.dashboard span {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 0.84rem;
+}
+
+.dashboard strong {
+    display: block;
+
+    margin-top: 6px;
+
+    color: var(--navy);
+}
+
+.track-note {
+    max-width: 1100px;
+
+    margin: 15px auto 0;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+    padding: 34px 5%;
+
+    text-align: center;
+
+    background: var(--navy);
+
+    border-top: 2px solid var(--gold);
+
+    color: #b7c2d5;
+}
+
+footer strong {
+    color: var(--white);
+
+    letter-spacing: 0.06em;
+}
+
+footer .small {
+    color: #9eabc0;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .nav {
+        flex-wrap: wrap;
+
+        gap: 15px;
+    }
+
+    .nav nav {
+        order: 3;
+
+        width: 100%;
+
+        margin-left: 0;
+
+        justify-content: flex-start;
+
+        overflow-x: auto;
+
+        padding-bottom: 3px;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+
+        padding-top: 55px;
+    }
+
+    .hero-card {
+        margin-top: 5px;
+    }
+
+    .steps {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .apply-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .estimate {
+        position: static;
+    }
+}
+
+@media (max-width: 560px) {
+
+    section {
+        padding: 55px 5%;
+    }
+
+    .hero {
+        padding-top: 45px;
+    }
+
+    .hero h1 {
+        font-size: 2.65rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .steps,
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .nav nav {
+        gap: 17px;
+    }
+
+    .nav nav a {
+        white-space: nowrap;
+
+        font-size: 0.88rem;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .actions .button {
+        width: 100%;
+
+        text-align: center;
+    }
+
+    form {
+        padding: 21px;
+    }
+    }
