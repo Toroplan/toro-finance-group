@@ -85,7 +85,6 @@ trackNote:"Le suivi affiché ici est conservé uniquement dans ce navigateur.",
 footerNote:"Aucune offre de crédit n'est conclue automatiquement via ce site."
 },
 
-
 de: {
 solutions:"Lösungen",
 process:"Ablauf",
@@ -169,7 +168,6 @@ trackNote:"Der angezeigte Status wird nur in diesem Browser gespeichert.",
 footerNote:"Über diese Website wird kein Kredit automatisch abgeschlossen."
 },
 
-
 en: {
 solutions:"Solutions",
 process:"Process",
@@ -251,10 +249,7 @@ noApplication:"No application",
 trackNote:"The displayed status is stored only in this browser.",
 
 footerNote:"No credit agreement is automatically concluded through this website."
-},
-
-
-es: {
+},es: {
 solutions:"Soluciones",
 process:"Proceso",
 applyNav:"Solicitud",
@@ -336,7 +331,6 @@ trackNote:"El estado mostrado se conserva únicamente en este navegador.",
 
 footerNote:"Ningún crédito se formaliza automáticamente a través de este sitio web."
 },
-
 
 it: {
 solutions:"Soluzioni",
@@ -421,7 +415,6 @@ trackNote:"Lo stato visualizzato viene conservato solo in questo browser.",
 footerNote:"Nessun contratto di credito viene concluso automaticamente tramite questo sito."
 },
 
-
 pt: {
 solutions:"Soluções",
 process:"Processo",
@@ -504,7 +497,6 @@ trackNote:"O estado apresentado é guardado apenas neste navegador.",
 
 footerNote:"Nenhum contrato de crédito é concluído automaticamente através deste site."
 },
-
 
 lt: {
 solutions:"Sprendimai",
@@ -590,8 +582,6 @@ footerNote:"Šioje svetainėje kredito sutartis automatiškai nesudaroma."
 }
 
 };
-
-
 /* DETECT VISITOR LANGUAGE */
 
 function detectLanguage() {
@@ -649,10 +639,172 @@ if (whatsappButton) {
 
     const messages = {
 
-        fr:"Bonjour Toro Finance Group, je souhaite faire une demande de financement.",
+        fr:
+        "Bonjour Toro Finance Group, je souhaite faire une demande de financement.",
 
-        de:"Guten Tag Toro Finance Group, ich möchte eine Finanzierungsanfrage stellen.",
+        de:
+        "Guten Tag Toro Finance Group, ich möchte eine Finanzierungsanfrage stellen.",
 
-        en:"Hello Toro Finance Group, I would like to make a financing request.",
+        en:
+        "Hello Toro Finance Group, I would like to make a financing request.",
 
-        es:"Ho
+        es:
+        "Hola Toro Finance Group, quiero realizar una solicitud de financiación.",
+
+        it:
+        "Buongiorno Toro Finance Group, desidero presentare una richiesta di finanziamento.",
+
+        pt:
+        "Olá Toro Finance Group, gostaria de fazer um pedido de financiamento.",
+
+        lt:
+        "Sveiki Toro Finance Group, noriu pateikti finansavimo paraišką."
+
+    };
+
+    const message =
+        messages[detectedLanguage] || messages.en;
+
+    whatsappButton.href =
+        "https://wa.me/48729210027?text=" +
+        encodeURIComponent(message);
+
+    whatsappButton.target = "_blank";
+
+    whatsappButton.rel = "noopener";
+}
+
+
+/* AMOUNT */
+
+const amountInput =
+    document.getElementById("amount");
+
+const estimate =
+    document.getElementById("estimateAmount");
+
+if (amountInput && estimate) {
+
+    amountInput.addEventListener("input", function () {
+
+        const value =
+            Number(this.value || 0);
+
+        estimate.textContent =
+            new Intl.NumberFormat(
+                detectedLanguage,
+                {
+                    style: "currency",
+                    currency: "EUR",
+                    maximumFractionDigits: 0
+                }
+            ).format(value);
+
+    });
+
+}
+
+
+/* APPLICATION REFERENCE */
+
+const form =
+    document.getElementById("demoForm");
+
+if (form) {
+
+    form.addEventListener("submit", function () {
+
+        const reference =
+            "TF-" +
+            new Date().getFullYear() +
+            "-" +
+            Math.floor(
+                100000 +
+                Math.random() * 900000
+            );
+
+        const referenceField =
+            document.getElementById("emailReference");
+
+        if (referenceField) {
+            referenceField.value = reference;
+        }
+
+        localStorage.setItem(
+            "toroReference",
+            reference
+        );
+
+        const dashRef =
+            document.getElementById("dashRef");
+
+        if (dashRef) {
+            dashRef.textContent = reference;
+        }
+
+        const dashProduct =
+            document.getElementById("dashProduct");
+
+        const productInput =
+            form.querySelector('[name="product"]');
+
+        if (dashProduct && productInput) {
+            dashProduct.textContent =
+                productInput.options[
+                    productInput.selectedIndex
+                ].text;
+        }
+
+        const dashAmount =
+            document.getElementById("dashAmount");
+
+        if (dashAmount && amountInput) {
+
+            const value =
+                Number(amountInput.value || 0);
+
+            dashAmount.textContent =
+                new Intl.NumberFormat(
+                    detectedLanguage,
+                    {
+                        style: "currency",
+                        currency: "EUR",
+                        maximumFractionDigits: 0
+                    }
+                ).format(value);
+        }
+
+        const dashStatus =
+            document.getElementById("dashStatus");
+
+        if (dashStatus) {
+
+            const dictionary =
+                translations[detectedLanguage] ||
+                translations.en;
+
+            dashStatus.textContent =
+                dictionary.statusLabel ||
+                "Status";
+        }
+
+    });
+
+}
+
+
+/* RESTORE REFERENCE */
+
+const savedReference =
+    localStorage.getItem("toroReference");
+
+if (savedReference) {
+
+    const dashRef =
+        document.getElementById("dashRef");
+
+    if (dashRef) {
+        dashRef.textContent = savedReference;
+    }
+
+}
