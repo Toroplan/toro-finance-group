@@ -1,0 +1,24 @@
+TORO FINANCE GROUP — ADMINISTRATION
+
+1. Ajoutez admin.html et admin.js à la racine du dépôt GitHub.
+2. Ouvrez Supabase > Authentication > Users et créez votre compte administrateur avec votre e-mail et un mot de passe.
+3. Dans Supabase > SQL Editor, exécutez :
+
+insert into public.admin_users(user_id)
+select id
+from auth.users
+where email = 'VOTRE_EMAIL'
+on conflict (user_id) do nothing;
+
+4. Ouvrez ensuite :
+https://toroplan.github.io/toro-finance-group/admin.html
+
+L'administration permet de :
+- voir les demandes reçues ;
+- rechercher un dossier ;
+- filtrer par statut ;
+- voir les coordonnées et le WhatsApp ;
+- changer le statut ;
+- enregistrer immédiatement la modification dans Supabase.
+
+Le design du site public n'est pas modifié.
