@@ -1,29 +1,156 @@
-/* TORO FINANCE GROUP — SUPABASE FORM CONNECTION */
+/* TORO FINANCE GROUP — SUPABASE + APPLICATION + TRACKING */
 
 (function () {
 
-    const SUPABASE_URL =
-        "https://lgmyjrctjjuvmjquvtqo.supabase.co";
-
-    const SUPABASE_KEY =
-        "sb_publishable_bOUEY1LO_xnBgmw3V60_aA_bjeWQmGn";
+"use strict";
 
 
-    /* LANGUAGE */
+/* ==============================
+   SUPABASE
+============================== */
 
-    const lang =
-        (
-            document.documentElement.lang ||
-            navigator.language ||
-            "en"
-        )
-        .toLowerCase()
-        .slice(0, 2);
+const SUPABASE_URL =
+    "https://lgmyjrctjjuvmjquvtqo.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_bOUEY1LO_xnBgmw3V60_aA_bjeWQmGn";
 
 
-    /* WHATSAPP */
+/* ==============================
+   LANGUAGE
+============================== */
 
-    const messages = {
+const language =
+    (
+        document.documentElement.lang ||
+        navigator.language ||
+        "en"
+    )
+    .toLowerCase()
+    .slice(0, 2);
+
+
+const messages = {
+
+    en: {
+        sending: "Submitting application…",
+        success: "Application submitted successfully.",
+        error: "The application could not be submitted. Please try again.",
+        checking: "Checking application…",
+        found: "Application found.",
+        notFound: "No application was found with this reference.",
+        whatsappNumber: "WhatsApp number",
+        pending: "Pending",
+        underReview: "Under review",
+        approved: "Approved",
+        declined: "Declined"
+    },
+
+    de: {
+        sending: "Antrag wird gesendet…",
+        success: "Antrag erfolgreich gesendet.",
+        error: "Der Antrag konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+        checking: "Antrag wird gesucht…",
+        found: "Antrag gefunden.",
+        notFound: "Für diese Referenz wurde kein Antrag gefunden.",
+        whatsappNumber: "WhatsApp-Nummer",
+        pending: "Ausstehend",
+        underReview: "In Prüfung",
+        approved: "Genehmigt",
+        declined: "Abgelehnt"
+    },
+
+    es: {
+        sending: "Enviando solicitud…",
+        success: "Solicitud enviada correctamente.",
+        error: "No se ha podido enviar la solicitud. Inténtelo de nuevo.",
+        checking: "Buscando solicitud…",
+        found: "Solicitud encontrada.",
+        notFound: "No se encontró ninguna solicitud con esta referencia.",
+        whatsappNumber: "Número de WhatsApp",
+        pending: "Pendiente",
+        underReview: "En revisión",
+        approved: "Aprobada",
+        declined: "Rechazada"
+    },
+
+    it: {
+        sending: "Invio della richiesta…",
+        success: "Richiesta inviata correttamente.",
+        error: "Impossibile inviare la richiesta. Riprova.",
+        checking: "Ricerca della richiesta…",
+        found: "Richiesta trovata.",
+        notFound: "Nessuna richiesta trovata con questo riferimento.",
+        whatsappNumber: "Numero WhatsApp",
+        pending: "In attesa",
+        underReview: "In valutazione",
+        approved: "Approvata",
+        declined: "Rifiutata"
+    },
+
+    pt: {
+        sending: "A enviar o pedido…",
+        success: "Pedido enviado com sucesso.",
+        error: "Não foi possível enviar o pedido. Tente novamente.",
+        checking: "A procurar o pedido…",
+        found: "Pedido encontrado.",
+        notFound: "Não foi encontrado nenhum pedido com esta referência.",
+        whatsappNumber: "Número WhatsApp",
+        pending: "Pendente",
+        underReview: "Em análise",
+        approved: "Aprovado",
+        declined: "Recusado"
+    },
+
+    lt: {
+        sending: "Paraiška siunčiama…",
+        success: "Paraiška sėkmingai išsiųsta.",
+        error: "Paraiškos nepavyko išsiųsti. Bandykite dar kartą.",
+        checking: "Ieškoma paraiškos…",
+        found: "Paraiška rasta.",
+        notFound: "Pagal šį numerį paraiška nerasta.",
+        whatsappNumber: "WhatsApp numeris",
+        pending: "Laukiama",
+        underReview: "Vertinama",
+        approved: "Patvirtinta",
+        declined: "Atmesta"
+    },
+
+    fr: {
+        sending: "Envoi de la demande…",
+        success: "Demande envoyée avec succès.",
+        error: "La demande n'a pas pu être envoyée. Veuillez réessayer.",
+        checking: "Recherche du dossier…",
+        found: "Dossier trouvé.",
+        notFound: "Aucun dossier ne correspond à cette référence.",
+        whatsappNumber: "Numéro WhatsApp",
+        pending: "En attente",
+        underReview: "En cours d'étude",
+        approved: "Approuvé",
+        declined: "Refusé"
+    }
+
+};
+
+
+const text =
+    messages[language] ||
+    messages.en;
+
+
+/* ==============================
+   WHATSAPP BUTTON
+============================== */
+
+const whatsappButton =
+    document.getElementById(
+        "whatsappButton"
+    );
+
+
+if (whatsappButton) {
+
+    const whatsappMessages = {
 
         en:
         "Hello Toro Finance Group, I would like to make a financing request.",
@@ -49,49 +176,39 @@
     };
 
 
-    const whatsappButton =
-        document.getElementById("whatsappButton");
+    const whatsappMessage =
+        whatsappMessages[language] ||
+        whatsappMessages.en;
 
 
-    if (whatsappButton) {
-
-        const message =
-            messages[lang] || messages.en;
-
-        whatsappButton.href =
-            "https://wa.me/48729210027?text=" +
-            encodeURIComponent(message);
-
-        whatsappButton.target =
-            "_blank";
-
-        whatsappButton.rel =
-            "noopener";
-
-    }
+    whatsappButton.href =
+        "https://wa.me/48729210027?text=" +
+        encodeURIComponent(
+            whatsappMessage
+        );
 
 
-    /* FORM */
-
-    const form =
-        document.getElementById("demoForm");
+    whatsappButton.target =
+        "_blank";
 
 
-    if (!form) {
-        return;
-    }
+    whatsappButton.rel =
+        "noopener";
+
+}
 
 
-    /* PREVENT DOUBLE CONNECTION */
+/* ==============================
+   APPLICATION FORM
+============================== */
 
-    if (form.dataset.supabaseReady === "1") {
-        return;
-    }
+const form =
+    document.getElementById(
+        "demoForm"
+    );
 
-    form.dataset.supabaseReady = "1";
 
-
-    /* SUBMIT */
+if (form) {
 
     form.addEventListener(
         "submit",
@@ -110,7 +227,9 @@
 
 
             const result =
-                document.getElementById("result");
+                document.getElementById(
+                    "result"
+                );
 
 
             const button =
@@ -119,21 +238,25 @@
                 );
 
 
-            const originalText =
+            const originalButtonText =
                 button
                     ? button.textContent
                     : "";
 
 
-            /* REFERENCE */
+            /* ==============================
+               GENERATE REFERENCE
+            ============================== */
 
             const reference =
                 "TF-" +
-                new Date().getFullYear() +
+                new Date()
+                    .getFullYear() +
                 "-" +
                 Math.floor(
                     100000 +
-                    Math.random() * 900000
+                    Math.random() *
+                    900000
                 );
 
 
@@ -151,56 +274,9 @@
             }
 
 
-            /* SAVE REFERENCE */
-
-            localStorage.setItem(
-                "toroReference",
-                reference
-            );
-
-
-            /* BUTTON */
-
-            if (button) {
-
-                button.disabled =
-                    true;
-
-                button.textContent =
-                    lang === "de"
-                        ? "Wird gesendet…"
-                        : lang === "es"
-                        ? "Enviando…"
-                        : lang === "it"
-                        ? "Invio…"
-                        : lang === "pt"
-                        ? "A enviar…"
-                        : lang === "lt"
-                        ? "Siunčiama…"
-                        : "Sending…";
-
-            }
-
-
-            /* RESULT */
-
-            if (result) {
-
-                result.textContent =
-                    lang === "de"
-                        ? "Übermittlung läuft…"
-                        : lang === "es"
-                        ? "Enviando solicitud…"
-                        : lang === "it"
-                        ? "Invio della richiesta…"
-                        : lang === "pt"
-                        ? "A enviar o pedido…"
-                        : lang === "lt"
-                        ? "Paraiška siunčiama…"
-                        : "Submitting application…";
-
-            }
-                      /* FORM DATA */
+            /* ==============================
+               READ FORM
+            ============================== */
 
             const firstName =
                 form.elements.firstName
@@ -217,6 +293,12 @@
             const email =
                 form.elements.email
                     ? form.elements.email.value.trim()
+                    : "";
+
+
+            const whatsapp =
+                form.elements.whatsapp
+                    ? form.elements.whatsapp.value.trim()
                     : "";
 
 
@@ -246,7 +328,32 @@
                     : false;
 
 
-            /* SUPABASE DATA */
+            /* ==============================
+               BUTTON STATE
+            ============================== */
+
+            if (button) {
+
+                button.disabled =
+                    true;
+
+                button.textContent =
+                    text.sending;
+
+            }
+
+
+            if (result) {
+
+                result.textContent =
+                    text.sending;
+
+            }
+
+
+            /* ==============================
+               SUPABASE PAYLOAD
+            ============================== */
 
             const application = {
 
@@ -261,6 +368,9 @@
 
                 email:
                     email,
+
+                whatsapp:
+                    whatsapp,
 
                 country:
                     country,
@@ -282,7 +392,9 @@
 
             try {
 
-                /* SEND TO SUPABASE */
+                /* ==============================
+                   INSERT APPLICATION
+                ============================== */
 
                 const response =
                     await fetch(
@@ -319,26 +431,31 @@
                     );
 
 
-                /* CHECK RESPONSE */
-
                 if (!response.ok) {
 
-                    const errorText =
+                    const error =
                         await response.text();
 
                     console.error(
                         "Supabase error:",
-                        errorText
+                        error
                     );
 
                     throw new Error(
-                        "Supabase submission failed"
+                        "Supabase insert failed"
                     );
 
                 }
 
 
-                /* LOCAL STORAGE */
+                /* ==============================
+                   LOCAL STORAGE
+                ============================== */
+
+                localStorage.setItem(
+                    "toroReference",
+                    reference
+                );
 
                 localStorage.setItem(
                     "toroApplicationStatus",
@@ -346,48 +463,23 @@
                 );
 
 
-                /* SUCCESS TEXT */
-
-                const successMessages = {
-
-                    en:
-                    "Pre-application submitted successfully.",
-
-                    de:
-                    "Voranfrage erfolgreich gesendet.",
-
-                    es:
-                    "Solicitud enviada correctamente.",
-
-                    it:
-                    "Richiesta inviata correttamente.",
-
-                    pt:
-                    "Pedido enviado com sucesso.",
-
-                    lt:
-                    "Paraiška sėkmingai išsiųsta.",
-
-                    fr:
-                    "Pré-demande envoyée avec succès."
-
-                };
-
+                /* ==============================
+                   SUCCESS
+                ============================== */
 
                 if (result) {
 
                     result.textContent =
-                        (
-                            successMessages[lang] ||
-                            successMessages.en
-                        ) +
+                        text.success +
                         " " +
                         reference;
 
                 }
 
 
-                /* DASHBOARD */
+                /* ==============================
+                   DASHBOARD
+                ============================== */
 
                 const dashRef =
                     document.getElementById(
@@ -423,14 +515,14 @@
 
                 if (dashProduct) {
 
-                    const productSelect =
+                    const select =
                         form.elements.product;
 
-                    if (productSelect) {
+                    if (select) {
 
                         dashProduct.textContent =
-                            productSelect.options[
-                                productSelect.selectedIndex
+                            select.options[
+                                select.selectedIndex
                             ].text;
 
                     }
@@ -444,8 +536,8 @@
                         new Intl.NumberFormat(
                             navigator.language ||
                             "en",
-                            {
 
+                            {
                                 style:
                                     "currency",
 
@@ -454,8 +546,8 @@
 
                                 maximumFractionDigits:
                                     0
-
                             }
+
                         ).format(
                             amount || 0
                         );
@@ -470,15 +562,17 @@
                     );
 
                     dashStatus.textContent =
-                        "Pending";
+                        text.pending;
 
-                      }
-                            /* RESET FORM */
+                }
+
+
+                /* ==============================
+                   RESET FORM
+                ============================== */
 
                 form.reset();
 
-
-                /* RESTORE REFERENCE */
 
                 if (referenceField) {
 
@@ -491,51 +585,19 @@
             } catch (error) {
 
                 console.error(
-                    "Toro Finance Group / Supabase:",
+                    "Toro Finance Group:",
                     error
                 );
-
-
-                /* ERROR MESSAGES */
-
-                const errorMessages = {
-
-                    en:
-                    "The application could not be submitted. Please try again.",
-
-                    de:
-                    "Die Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
-
-                    es:
-                    "No se ha podido enviar la solicitud. Inténtelo de nuevo.",
-
-                    it:
-                    "La richiesta non può essere inviata. Riprova.",
-
-                    pt:
-                    "Não foi possível enviar o pedido. Tente novamente.",
-
-                    lt:
-                    "Paraiškos nepavyko išsiųsti. Bandykite dar kartą.",
-
-                    fr:
-                    "La pré-demande n'a pas pu être envoyée. Veuillez réessayer."
-
-                };
 
 
                 if (result) {
 
                     result.textContent =
-                        errorMessages[lang] ||
-                        errorMessages.en;
+                        text.error;
 
                 }
 
-
             } finally {
-
-                /* RESTORE BUTTON */
 
                 if (button) {
 
@@ -543,14 +605,314 @@
                         false;
 
                     button.textContent =
-                        originalText;
+                        originalButtonText;
 
                 }
 
             }
 
         }
-
     );
 
-})(); 
+}
+
+
+/* ==============================
+   TRACKING
+============================== */
+
+const trackButton =
+    document.getElementById(
+        "trackButton"
+    );
+
+
+const trackInput =
+    document.getElementById(
+        "trackReferenceInput"
+    );
+
+
+const trackResult =
+    document.getElementById(
+        "trackResult"
+    );
+
+
+if (
+    trackButton &&
+    trackInput
+) {
+
+    trackButton.addEventListener(
+        "click",
+        async function () {
+
+            const reference =
+                trackInput.value
+                    .trim()
+                    .toUpperCase();
+
+
+            if (!reference) {
+
+                if (trackResult) {
+
+                    trackResult.textContent =
+                        text.notFound;
+
+                }
+
+                return;
+
+            }
+
+
+            if (trackResult) {
+
+                trackResult.textContent =
+                    text.checking;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        SUPABASE_URL +
+                        "/rest/v1/loan_applications" +
+                        "?reference=eq." +
+                        encodeURIComponent(
+                            reference
+                        ) +
+                        "&select=reference,product,amount,status",
+                        {
+
+                            method:
+                                "GET",
+
+                            headers: {
+
+                                "apikey":
+                                    SUPABASE_KEY,
+
+                                "Authorization":
+                                    "Bearer " +
+                                    SUPABASE_KEY
+
+                            }
+
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Tracking request failed"
+                    );
+
+                }
+
+
+                const applications =
+                    await response.json();
+
+
+                if (
+                    !Array.isArray(
+                        applications
+                    ) ||
+                    applications.length === 0
+                ) {
+
+                    if (trackResult) {
+
+                        trackResult.textContent =
+                            text.notFound;
+
+                    }
+
+                    return;
+
+                }
+
+
+                const application =
+                    applications[0];
+
+
+                /* ==============================
+                   DISPLAY TRACKING
+                ============================== */
+
+                const dashRef =
+                    document.getElementById(
+                        "dashRef"
+                    );
+
+
+                const dashProduct =
+                    document.getElementById(
+                        "dashProduct"
+                    );
+
+
+                const dashAmount =
+                    document.getElementById(
+                        "dashAmount"
+                    );
+
+
+                const dashStatus =
+                    document.getElementById(
+                        "dashStatus"
+                    );
+
+
+                if (dashRef) {
+
+                    dashRef.textContent =
+                        application.reference ||
+                        "—";
+
+                }
+
+
+                if (dashProduct) {
+
+                    dashProduct.textContent =
+                        application.product ||
+                        "—";
+
+                }
+
+
+                if (dashAmount) {
+
+                    dashAmount.textContent =
+                        new Intl.NumberFormat(
+                            navigator.language ||
+                            "en",
+
+                            {
+                                style:
+                                    "currency",
+
+                                currency:
+                                    "EUR",
+
+                                maximumFractionDigits:
+                                    0
+                            }
+
+                        ).format(
+                            Number(
+                                application.amount ||
+                                0
+                            )
+                        );
+
+                }
+
+
+                if (dashStatus) {
+
+                    dashStatus.removeAttribute(
+                        "data-t"
+                    );
+
+
+                    const status =
+                        String(
+                            application.status ||
+                            "pending"
+                        ).toLowerCase();
+
+
+                    if (
+                        status ===
+                        "under_review"
+                    ) {
+
+                        dashStatus.textContent =
+                            text.underReview;
+
+                    } else if (
+                        status ===
+                        "approved"
+                    ) {
+
+                        dashStatus.textContent =
+                            text.approved;
+
+                    } else if (
+                        status ===
+                        "declined"
+                    ) {
+
+                        dashStatus.textContent =
+                            text.declined;
+
+                    } else {
+
+                        dashStatus.textContent =
+                            text.pending;
+
+                    }
+
+                }
+
+
+                if (trackResult) {
+
+                    trackResult.textContent =
+                        text.found;
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Tracking error:",
+                    error
+                );
+
+
+                if (trackResult) {
+
+                    trackResult.textContent =
+                        text.error;
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /* ENTER KEY */
+
+    trackInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                event.preventDefault();
+
+                trackButton.click();
+
+            }
+
+        }
+    );
+
+}
+})();
