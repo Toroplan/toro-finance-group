@@ -539,3 +539,35 @@ footer strong{
         max-width:100%
     }
 }
+.grid article{
+    overflow:hidden
+}
+
+.grid article:before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:3px;
+    height:0;
+    background:var(--gold);
+    transition:height .25s
+}
+
+.grid article:hover:before{
+    height:100%
+}
+
+.card-arrow{
+    position:absolute;
+    right:25px;
+    bottom:22px;
+    font-size:1.25rem;
+    color:var(--gold);
+    font-weight:800;
+    transition:transform .2s
+}
+
+.grid article:hover .card-arrow{
+    transform:translateX(5px)
+}
