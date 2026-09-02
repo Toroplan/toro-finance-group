@@ -583,22 +583,24 @@ footerNote:"Šioje svetainėje kredito sutartis automatiškai nesudaroma."
 
 };
 /* DETECT VISITOR LANGUAGE */
-
 function detectLanguage() {
 
     const lang =
-        (navigator.language || navigator.userLanguage || "en")
-        .toLowerCase();
+        (navigator.language || navigator.userLanguage || "cs")
+        .toLowerCase()
+        .split("-")[0]
+        .split("_")[0];
 
-    if (lang.startsWith("de")) return "de";
-    if (lang.startsWith("es")) return "es";
-    if (lang.startsWith("it")) return "it";
-    if (lang.startsWith("pt")) return "pt";
-    if (lang.startsWith("lt")) return "lt";
-    if (lang.startsWith("fr")) return "fr";
-    if (lang.startsWith("en")) return "en";
+    if (lang === "fr") return "fr";
+    if (lang === "de") return "de";
+    if (lang === "es") return "es";
+    if (lang === "it") return "it";
+    if (lang === "pt") return "pt";
+    if (lang === "lt") return "lt";
+    if (lang === "en") return "en";
+    if (lang === "cs") return "cs";
 
-    return "en";
+    return "cs";
 }
 
 
@@ -808,3 +810,99 @@ if (savedReference) {
     }
 
 }
+cs: {
+    solutions:"Řešení",
+    process:"Proces",
+    applyNav:"Žádost",
+    track:"Stav",
+
+    heroTitle:"Finanční řešení pro vaše projekty.",
+    heroLead:"Jednoduchá digitální zkušenost pro představení vašeho projektu, podání předběžné žádosti o financování a sledování jejího stavu.",
+    applyButton:"Podat žádost",
+    solutionsButton:"Naše řešení",
+
+    notice:"Informační web a předběžná žádost. Každé rozhodnutí o financování podléhá posouzení žádosti a příslušným kritériím.",
+
+    heroCardTitle:"Síla. Vize. Výkon.",
+    heroCardText:"Strukturovaný, transparentní a projektově orientovaný přístup.",
+
+    servicesEyebrow:"NAŠE ŘEŠENÍ",
+    servicesTitle:"Financování pro různé cíle",
+
+    s1:"Osobní financování",
+    s1d:"Pro osobní potřeby a každodenní projekty.",
+
+    s2:"Podnikatelské financování",
+    s2d:"Pro podporu podnikatelské činnosti, investic nebo potřeby provozního kapitálu.",
+
+    s3:"Financování nemovitostí",
+    s3d:"Pro projekty nákupu nebo investic do nemovitostí.",
+
+    s4:"Financování vozidel",
+    s4d:"Pro pořízení vozidla podle příslušných podmínek.",
+
+    s5:"Projekt a investice",
+    s5d:"Pro žádosti o financování související s konkrétním projektem.",
+
+    processEyebrow:"PROCES",
+    processTitle:"Ve 3 krocích",
+
+    p1:"Vaše žádost",
+    p1d:"Představte svůj profil a potřebu financování.",
+
+    p2:"Posouzení žádosti",
+    p2d:"Informace jsou posuzovány podle příslušných kritérií.",
+
+    p3:"Odpověď",
+    p3d:"Obdržíte odpověď nebo žádost o doplňující informace.",
+
+    applyEyebrow:"PŘEDBĚŽNÁ ŽÁDOST",
+    applyTitle:"Představte svůj projekt",
+
+    firstName:"Jméno",
+    lastName:"Příjmení",
+    email:"E-mail",
+    country:"Země",
+    product:"Financování",
+    amount:"Požadovaná částka",
+
+    consent:"Souhlasím s použitím těchto informací pro zpracování této předběžné žádosti.",
+
+    submit:"Odeslat předběžnou žádost",
+
+    whatsapp:"Kontaktovat Toro Finance Group přes WhatsApp",
+
+    france:"Francie",
+    belgium:"Belgie",
+    germany:"Německo",
+    italy:"Itálie",
+    lithuania:"Litva",
+    spain:"Španělsko",
+    portugal:"Portugalsko",
+    other:"Jiná",
+
+    personal:"Osobní financování",
+    business:"Podnikatelské financování",
+    realestate:"Financování nemovitostí",
+    auto:"Financování vozidel",
+    project:"Projekt / investice",
+
+    simulation:"SIMULACE",
+    requested:"Požadovaná částka",
+
+    simulationNote:"Tento odhad je orientační a nepředstavuje nabídku úvěru.",
+
+    trackEyebrow:"STAV",
+    trackTitle:"Vaše žádost",
+
+    reference:"Reference",
+    productLabel:"Produkt",
+    amountLabel:"Částka",
+    statusLabel:"Stav",
+
+    noApplication:"Žádná žádost",
+
+    trackNote:"Zobrazený stav je uložen pouze v tomto prohlížeči.",
+
+    footerNote:"Prostřednictvím tohoto webu není automaticky uzavírána žádná úvěrová smlouva."
+        }
