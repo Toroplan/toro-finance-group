@@ -580,7 +580,12 @@ trackNote:"Rodoma būsena saugoma tik šioje naršyklėje.",
 
 footerNote:"Šioje svetainėje kredito sutartis automatiškai nesudaroma."
 }
+lt: {
+    ...
+},
 
+cs: {
+    // vraies traductions tchèques ici
 };
 /* DETECT VISITOR LANGUAGE */
 function detectLanguage() {
