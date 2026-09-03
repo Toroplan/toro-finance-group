@@ -579,11 +579,7 @@ noApplication:"Paraiškos nėra",
 trackNote:"Rodoma būsena saugoma tik šioje naršyklėje.",
 
 footerNote:"Šioje svetainėje kredito sutartis automatiškai nesudaroma."
-}
-lt: {
-    ...
 },
-
 cs: {
     solutions:"Řešení",
     process:"Proces",
@@ -680,6 +676,8 @@ cs: {
 
     footerNote:"Prostřednictvím tohoto webu není automaticky uzavírána žádná úvěrová smlouva."
 },
+};
+
 /* DETECT VISITOR LANGUAGE */
 function detectLanguage() {
 
