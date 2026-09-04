@@ -234,7 +234,6 @@ business:"Business financing",
 realestate:"Real estate financing",
 auto:"Vehicle financing",
 project:"Project / investment",
-
 simulation:"SIMULATION",
 requested:"Requested amount",
 simulationNote:"This estimate is indicative and does not constitute a credit offer.",
@@ -696,7 +695,7 @@ function detectLanguage() {
     if (lang === "en") return "en";
     if (lang === "cs") return "cs";
 
-    return "cs";
+    return "en";
 }
 
 
