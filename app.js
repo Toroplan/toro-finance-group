@@ -695,7 +695,7 @@ function detectLanguage() {
     if (lang === "en") return "en";
     if (lang === "cs") return "cs";
 
-    return "en";
+    return "cs";
 }
 
 
