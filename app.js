@@ -762,7 +762,7 @@ if (whatsappButton) {
     };
 
     const message =
-        messages[detectedLanguage] || messages.en;
+        messages[detectedLanguage] || messages.cs;
 
     whatsappButton.href =
         "https://wa.me/48729210027?text=" +
