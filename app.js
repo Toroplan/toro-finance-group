@@ -880,7 +880,7 @@ if (form) {
 
             const dictionary =
                 translations[detectedLanguage] ||
-                translations.en;
+                translations.cs;
 
             dashStatus.textContent =
                 dictionary.statusLabel ||
