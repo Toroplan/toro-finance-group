@@ -704,7 +704,7 @@ function detectLanguage() {
 function applyLanguage(language) {
 
     const dictionary =
-        translations[language] || translations.en;
+        translations[language] || translations.cs;
 
     document.documentElement.lang = language;
 
