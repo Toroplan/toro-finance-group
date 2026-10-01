@@ -681,7 +681,7 @@ if (
                 const response =
                     await fetch(
                         SUPABASE_URL +
-                        "/rest/v1/loan_applications" +
+                        "/functions/v1/submit-loan", +
                         "?reference=eq." +
                         encodeURIComponent(
                             reference
