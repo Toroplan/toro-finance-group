@@ -401,8 +401,7 @@ if (form) {
         SUPABASE_URL +
         "/functions/v1/submit-loan",
         {
-            method:
-                "POST",
+            method: "POST",
 
             headers: {
                 "Content-Type":
@@ -414,23 +413,24 @@ if (form) {
                     application
                 )
         }
-    ); {
-
-                    const error =
-                        await response.text();
-
-                    console.error(
-                        "Supabase error:",
-                        error
-                    );
-
-                    throw new Error(
-                        "Supabase insert failed"
-                    );
-
-                }
+    );
 
 
+if (!response.ok) {
+
+    const error =
+        await response.text();
+
+    console.error(
+        "Submit-loan error:",
+        error
+    );
+
+    throw new Error(
+        "Supabase insert failed"
+    );
+
+               }
                 /* ==============================
                    LOCAL STORAGE
                 ============================== */
