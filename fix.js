@@ -396,44 +396,25 @@ if (form) {
                    INSERT APPLICATION
                 ============================== */
 
-                const response =
-                    await fetch(
-                        SUPABASE_URL +
-"/functions/v1/submit-loan",
-                        {
+               const response =
+    await fetch(
+        SUPABASE_URL +
+        "/functions/v1/submit-loan",
+        {
+            method:
+                "POST",
 
-                            method:
-                                "POST",
+            headers: {
+                "Content-Type":
+                    "application/json"
+            },
 
-                            headers: {
-    "Content-Type": "application/json"
-},
-
-                                "apikey":
-                                    SUPABASE_KEY,
-
-                                "Authorization":
-                                    "Bearer " +
-                                    SUPABASE_KEY,
-
-                                "Content-Type":
-                                    "application/json",
-
-                                "Prefer":
-                                    "return=minimal"
-
-                            },
-
-                            body:
-                                JSON.stringify(
-                                    application
-                                )
-
-                        }
-                    );
-
-
-                if (!response.ok) {
+            body:
+                JSON.stringify(
+                    application
+                )
+        }
+    ); {
 
                     const error =
                         await response.text();
