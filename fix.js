@@ -399,13 +399,15 @@ if (form) {
                 const response =
                     await fetch(
                         SUPABASE_URL +
-                        "/rest/v1/loan_applications",
+"/functions/v1/submit-loan",
                         {
 
                             method:
                                 "POST",
 
                             headers: {
+    "Content-Type": "application/json"
+},
 
                                 "apikey":
                                     SUPABASE_KEY,
@@ -681,8 +683,8 @@ if (
                 const response =
                     await fetch(
                         SUPABASE_URL +
-                        "/functions/v1/submit-loan", +
-                        "?reference=eq." +
+"/rest/v1/loan_applications" +
+"?reference=eq." +
                         encodeURIComponent(
                             reference
                         ) +
