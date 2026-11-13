@@ -232,6 +232,7 @@ function render() {
                     <th>Pays</th>
                     <th>Produit</th>
                     <th>Montant</th>
+                    <th>Durée de remboursement</th>
                     <th>Reçue le</th>
                     <th>Statut</th>
 
@@ -437,7 +438,7 @@ async function loadApplications() {
         .from("loan_applications")
 
         .select(
-            "id,reference,first_name,last_name,email,country,product,amount,status,whatsapp,created_at,updated_at"
+            "id,reference,first_name,last_name,email,country,product,amount,status,whatsapp,created_at,updated_at,repayment_duration"
         )
 
         .order(
