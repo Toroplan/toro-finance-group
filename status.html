@@ -414,7 +414,17 @@ function showResult(application) {
                     ${formatAmount(application.amount)}
                 </span>
 
-            </div>
+                            <div class="row">
+
+                    <span class="label">
+                        Durée de remboursement
+                    </span>
+
+                    <span class="value">
+                        ${escapeHtml(application.repayment_duration || "—")}
+                    </span>
+
+                </div>
 
 
             <div class="row">
