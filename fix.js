@@ -396,24 +396,31 @@ if (form) {
                    INSERT APPLICATION
                 ============================== */
 
-               const response =
-    await fetch(
-        SUPABASE_URL +
-        "/functions/v1/submit-loan",
-        {
-            method: "POST",
+               const response = await fetch(
+    SUPABASE_URL + "/rest/v1/rpc/get_application_status",
+    {
+        method: "POST",
+        headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": "Bearer " + SUPABASE_KEY,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            p_reference: reference
+        })
+    }
+);
 
-            headers: {
-                "Content-Type":
-                    "application/json"
-            },
+if (!response.ok) {
+    throw new Error("Tracking request failed");
+}
 
-            body:
-                JSON.stringify(
-                    application
-                )
-        }
-    );
+const applications = await response.json();
+
+if (
+    !Array.isArray(applications) ||
+    applications.length === 0
+) {
 
 
 if (!response.ok) {
