@@ -1,0 +1,176 @@
+/* TORO FINANCE GROUP — PREMIUM DESIGN REFRESH */
+:root {
+--navy: #102744;
+--ink: #14243a;
+--gold: #c5a15a;
+--line: #e3e8ef;
+--shadow: 0 24px 65px rgba(16, 39, 68, .10);
+}
+
+body {
+background: #f6f8fb;
+color: var(--ink);
+}
+
+.nav {
+padding: 18px 6%;
+background: rgba(255,255,255,.97);
+box-shadow: 0 8px 30px rgba(16,39,68,.055);
+}
+
+.brand {
+font-size: 1.02rem;
+letter-spacing: .12em;
+}
+
+.brand span { font-weight: 750; }
+
+.nav nav a {
+font-weight: 700;
+transition: color .2s ease;
+}
+
+.nav nav a:hover { color: #a47e36; }
+
+.hero {
+min-height: 720px;
+padding: 110px 7%;
+background:
+radial-gradient(ellipse at 82% 20%, rgba(197,161,90,.19), transparent 34%),
+radial-gradient(ellipse at 4% 95%, rgba(16,39,68,.06), transparent 35%),
+linear-gradient(135deg, #fff 0%, #f5f8fc 100%);
+}
+
+.hero h1 {
+max-width: 850px;
+font-size: clamp(3.1rem, 6vw, 5.8rem);
+line-height: 1.01;
+}
+
+.hero .lead {
+max-width: 680px;
+line-height: 1.8;
+}
+
+.hero-card {
+min-height: 330px;
+padding: 42px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+border-radius: 28px;
+}
+
+.hero-card b {
+font-size: 1.05rem;
+letter-spacing: .2em;
+}
+
+.hero-card h2 {
+font-size: 2.25rem;
+line-height: 1.08;
+}
+
+section:not(.hero) {
+padding-top: 96px;
+padding-bottom: 96px;
+}
+
+#services .grid article {
+min-height: 230px;
+padding: 30px;
+border-radius: 20px;
+}
+
+#services .grid article h3 { font-size: 1.2rem; }
+
+.steps > div {
+padding: 32px;
+border-radius: 22px;
+}
+
+form {
+padding: 34px;
+border-radius: 24px;
+box-shadow: var(--shadow);
+}
+
+form label span { font-size: .94rem; }
+
+input, select {
+min-height: 50px;
+border-color: #d5dde7;
+border-radius: 12px;
+transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+input:focus, select:focus {
+border-color: var(--gold);
+box-shadow: 0 0 0 4px rgba(197,161,90,.12);
+outline: 0;
+}
+
+.button {
+min-height: 50px;
+border-radius: 12px;
+}
+
+.button:disabled {
+opacity: .65;
+cursor: wait;
+transform: none;
+}
+
+.estimate {
+padding: 34px;
+border-radius: 24px;
+box-shadow: var(--shadow);
+}
+
+.dashboard {
+grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+gap: 16px;
+}
+
+.dashboard > div {
+border-radius: 18px;
+box-shadow: 0 10px 28px rgba(16,39,68,.06);
+}
+
+.duration-grid { align-items: end; }
+
+footer {
+padding: 42px 6%;
+line-height: 2;
+}
+
+footer a {
+color: var(--navy);
+font-weight: 700;
+text-decoration: none;
+}
+
+footer a:hover { text-decoration: underline; }
+
+@media (max-width: 800px) {
+.hero {
+padding: 76px 6%;
+gap: 38px;
+}
+
+section:not(.hero) {
+padding-top: 68px;
+padding-bottom: 68px;
+}
+
+form { padding: 24px; }
+}
+
+@media (max-width: 560px) {
+.hero h1 { font-size: 2.7rem; }
+.hero-card {
+min-height: 250px;
+padding: 28px;
+}
+form { padding: 20px; }
+}
