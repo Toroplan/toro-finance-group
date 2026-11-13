@@ -330,7 +330,6 @@ function render() {
                             ${escapeHtml(
                                 item.product
                             )}
-
                         </td>
 
 
@@ -338,10 +337,8 @@ function render() {
 
                             ${money(
                                 item.amount
-                            )}
-
-                        </td>
-
+                            )}            </td> 
+                            <td>${escapeHtml(item.repayment_duration || "—")}</td>
 
                         <td>
 
