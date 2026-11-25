@@ -678,101 +678,100 @@ cs: {
 };
 
 /* DETECT VISITOR LANGUAGE */
+/* LANGUAGE SELECTION */
+
+const supportedLanguages = [
+    "fr", "de", "en", "es", "it", "pt", "lt", "cs"
+];
+
 function detectLanguage() {
+    const savedLanguage = localStorage.getItem("toroLanguage");
 
-    const lang =
-        (navigator.language || navigator.userLanguage || "cs")
+    if (savedLanguage && supportedLanguages.includes(savedLanguage)) {
+        return savedLanguage;
+    }
+
+    const browserLanguage = (navigator.language || "en")
         .toLowerCase()
-        .split("-")[0]
-        .split("_")[0];
+        .split("-")[0];
 
-    if (lang === "fr") return "fr";
-    if (lang === "de") return "de";
-    if (lang === "es") return "es";
-    if (lang === "it") return "it";
-    if (lang === "pt") return "pt";
-    if (lang === "lt") return "lt";
-    if (lang === "en") return "en";
-    if (lang === "cs") return "cs";
-
-    return "cs";
+    return supportedLanguages.includes(browserLanguage)
+        ? browserLanguage
+        : "en";
 }
 
+let detectedLanguage = detectLanguage();
 
-/* APPLY LANGUAGE */
+function updateWhatsappLink() {
+    const button = document.getElementById("whatsappButton");
+    if (!button) return;
+
+    const messages = {
+        fr: "Bonjour Toro Finance Group, je souhaite faire une demande de financement.",
+        de: "Guten Tag Toro Finance Group, ich möchte eine Finanzierungsanfrage stellen.",
+        en: "Hello Toro Finance Group, I would like to make a financing request.",
+        es: "Hola Toro Finance Group, quiero realizar una solicitud de financiación.",
+        it: "Buongiorno Toro Finance Group, desidero presentare una richiesta di finanziamento.",
+        pt: "Olá Toro Finance Group, gostaria de fazer um pedido de financiamento.",
+        lt: "Sveiki Toro Finance Group, noriu pateikti finansavimo paraišką.",
+        cs: "Dobrý den, Toro Finance Group, mám zájem o financování a chtěl/a bych podat žádost."
+    };
+
+    const message = messages[detectedLanguage] || messages.en;
+
+    button.href = "https://wa.me/48729210027?text=" +
+        encodeURIComponent(message);
+
+    button.target = "_blank";
+    button.rel = "noopener";
+}
 
 function applyLanguage(language) {
+    if (!supportedLanguages.includes(language)) {
+        language = "en";
+    }
 
-    const dictionary =
-        translations[language] || translations.cs;
+    detectedLanguage = language;
+
+    const dictionary = translations[language] || translations.en;
 
     document.documentElement.lang = language;
 
     document.querySelectorAll("[data-t]").forEach(element => {
-
         const key = element.getAttribute("data-t");
 
         if (dictionary[key]) {
             element.textContent = dictionary[key];
         }
-
     });
+
+    const selector = document.getElementById("languageSelector");
+
+    if (selector) {
+        selector.value = language;
+    }
+
+    updateWhatsappLink();
+
+    if (typeof updateCreditSimulation === "function") {
+        updateCreditSimulation();
+    }
 
     return dictionary;
 }
 
-
-const detectedLanguage = detectLanguage();
-
 applyLanguage(detectedLanguage);
 
+const languageSelector = document.getElementById("languageSelector");
 
-/* WHATSAPP */
+if (languageSelector) {
+    languageSelector.value = detectedLanguage;
 
-const whatsappButton =
-    document.getElementById("whatsappButton");
-
-if (whatsappButton) {
-
-    const messages = {
-
-        fr:
-        "Bonjour Toro Finance Group, je souhaite faire une demande de financement.",
-
-        de:
-        "Guten Tag Toro Finance Group, ich möchte eine Finanzierungsanfrage stellen.",
-
-        en:
-        "Hello Toro Finance Group, I would like to make a financing request.",
-
-        es:
-        "Hola Toro Finance Group, quiero realizar una solicitud de financiación.",
-
-        it:
-        "Buongiorno Toro Finance Group, desidero presentare una richiesta di finanziamento.",
-
-        pt:
-        "Olá Toro Finance Group, gostaria de fazer um pedido de financiamento.",
-
-        lt:
-        "Sveiki Toro Finance Group, noriu pateikti finansavimo paraišką.",
-        cs:
-"Dobrý den, Toro Finance Group, mám zájem o financování a chtěl/a bych podat žádost.",
-
-    };
-
-    const message =
-        messages[detectedLanguage] || messages.cs;
-
-    whatsappButton.href =
-        "https://wa.me/48729210027?text=" +
-        encodeURIComponent(message);
-
-    whatsappButton.target = "_blank";
-
-    whatsappButton.rel = "noopener";
+    languageSelector.addEventListener("change", function () {
+        localStorage.setItem("toroLanguage", this.value);
+        applyLanguage(this.value);
+    });
 }
-
 
 /* AMOUNT */
 /* CREDIT SIMULATOR */
