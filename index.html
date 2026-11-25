@@ -494,21 +494,45 @@
 
         <aside class="estimate">
 
-            <p class="eyebrow" data-t="simulation">
-                SIMULATION
-            </p>
+    <p class="eyebrow" data-t="simulation">
+        SIMULATEUR DE CRÉDIT
+    </p>
 
-            <div id="estimateAmount">
-                € 0
-            </div>
+    <h3>Estimation de votre financement</h3>
 
-            <p data-t="requested">
-                Requested amount
-            </p>
+    <div id="estimateAmount">0 €</div>
 
-            <p class="small" data-t="simulationNote">
-                This estimate is indicative and does not constitute a credit offer.
-            </p>
+    <p>Montant demandé</p>
+
+    <div class="simulation-results">
+
+        <div>
+            <span>Mensualité estimée</span>
+            <strong id="monthlyPayment">0 €</strong>
+        </div>
+
+        <div>
+            <span>Taux annuel</span>
+            <strong>4 %</strong>
+        </div>
+
+        <div>
+            <span>Total des intérêts</span>
+            <strong id="totalInterest">0 €</strong>
+        </div>
+
+        <div>
+            <span>Total à rembourser</span>
+            <strong id="totalRepayment">0 €</strong>
+        </div>
+
+    </div>
+
+    <p class="small">
+        Simulation indicative à taux annuel fixe de 4 %,
+        selon la méthode des mensualités constantes.
+        Elle ne constitue pas une offre de crédit.
+    </p>
 
         </aside>
 
