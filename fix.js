@@ -397,47 +397,21 @@ if (form) {
                 ============================== */
 
                const response = await fetch(
-    SUPABASE_URL + "/rest/v1/rpc/get_application_status",
+    SUPABASE_URL + "/functions/v1/submit-loan",
     {
         method: "POST",
         headers: {
-            "apikey": SUPABASE_KEY,
-            "Authorization": "Bearer " + SUPABASE_KEY,
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            p_reference: reference
-        })
+        body: JSON.stringify(application)
     }
 );
 
 if (!response.ok) {
-    throw new Error("Tracking request failed");
+    const error = await response.text();
+    console.error("Submit-loan error:", error);
+    throw new Error("Supabase insert failed");
 }
-
-const applications = await response.json();
-
-if (
-    !Array.isArray(applications) ||
-    applications.length === 0
-) {
-
-
-if (!response.ok) {
-
-    const error =
-        await response.text();
-
-    console.error(
-        "Submit-loan error:",
-        error
-    );
-
-    throw new Error(
-        "Supabase insert failed"
-    );
-
-               }
                 /* ==============================
                    LOCAL STORAGE
                 ============================== */
