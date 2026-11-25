@@ -642,34 +642,20 @@ if (
 
             try {
 
-                const response =
-                    await fetch(
-                        SUPABASE_URL +
-"/rest/v1/loan_applications" +
-"?reference=eq." +
-                        encodeURIComponent(
-                            reference
-                        ) +
-                        "&select=reference,product,amount,status",
-                        {
-
-                            method:
-                                "GET",
-
-                            headers: {
-
-                                "apikey":
-                                    SUPABASE_KEY,
-
-                                "Authorization":
-                                    "Bearer " +
-                                    SUPABASE_KEY
-
-                            }
-
-                        }
-                    );
-
+                const response = await fetch(
+    SUPABASE_URL + "/rest/v1/rpc/get_application_status",
+    {
+        method: "POST",
+        headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": "Bearer " + SUPABASE_KEY,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            p_reference: reference
+        })
+    }
+);
 
                 if (!response.ok) {
 
