@@ -675,14 +675,82 @@ cs: {
 
     footerNote:"Prostřednictvím tohoto webu není automaticky uzavírána žádná úvěrová smlouva."
 },
-};
+    /* CROATIAN TRANSLATION */
 
+translations.hr = {
+solutions:"Rješenja",
+process:"Postupak",
+applyNav:"Prijava",
+track:"Status",
+heroTitle:"Financijska rješenja za vaše projekte.",
+heroLead:"Jednostavan način predstavljanja projekta, podnošenja zahtjeva za financiranje i praćenja njegova statusa.",
+applyButton:"Podnesite zahtjev",
+solutionsButton:"Naša rješenja",
+notice:"Informativna stranica i preliminarni zahtjev. Svaka odluka o financiranju ovisi o procjeni dokumentacije i primjenjivim kriterijima.",
+heroCardTitle:"Snaga. Vizija. Uspjeh.",
+heroCardText:"Strukturiran i transparentan pristup usmjeren na vaše projekte.",
+servicesEyebrow:"NAŠA RJEŠENJA",
+servicesTitle:"Financiranje za različite ciljeve",
+s1:"Osobno financiranje",
+s1d:"Za osobne potrebe i svakodnevne projekte.",
+s2:"Poslovno financiranje",
+s2d:"Za potporu poslovanju, ulaganjima ili potrebama za obrtnim kapitalom.",
+s3:"Financiranje nekretnina",
+s3d:"Za kupnju i ulaganje u nekretnine.",
+s4:"Financiranje vozila",
+s4d:"Za kupnju vozila prema primjenjivim uvjetima.",
+s5:"Projekt i ulaganje",
+s5d:"Za zahtjeve za financiranje određenog projekta.",
+processEyebrow:"POSTUPAK",
+processTitle:"U 3 koraka",
+p1:"Vaš zahtjev",
+p1d:"Predstavite svoj profil i potrebe za financiranjem.",
+p2:"Procjena zahtjeva",
+p2d:"Podaci se procjenjuju prema primjenjivim kriterijima.",
+p3:"Odgovor",
+p3d:"Primit ćete odgovor ili zahtjev za dodatnim informacijama.",
+applyEyebrow:"PRELIMINARNI ZAHTJEV",
+applyTitle:"Predstavite svoj projekt",
+firstName:"Ime",
+lastName:"Prezime",
+email:"E-pošta",
+country:"Država",
+product:"Financiranje",
+amount:"Traženi iznos",
+consent:"Suglasan/suglasna sam da se ovi podaci koriste za obradu preliminarnog zahtjeva.",
+submit:"Pošaljite preliminarni zahtjev",
+whatsapp:"Kontaktirajte nas putem WhatsAppa",
+france:"Francuska",
+belgium:"Belgija",
+germany:"Njemačka",
+italy:"Italija",
+lithuania:"Litva",
+spain:"Španjolska",
+portugal:"Portugal",
+other:"Ostalo",
+personal:"Osobno financiranje",
+business:"Poslovno financiranje",
+realestate:"Financiranje nekretnina",
+auto:"Financiranje vozila",
+project:"Projekt / ulaganje",
+simulation:"SIMULACIJA",
+requested:"Traženi iznos",
+simulationNote:"Ovaj izračun je informativan i ne predstavlja kreditnu ponudu.",
+trackEyebrow:"STATUS",
+trackTitle:"Vaš zahtjev",
+reference:"Referentni broj",
+productLabel:"Proizvod",
+amountLabel:"Iznos",
+statusLabel:"Status",
+noApplication:"Nema zahtjeva",
+trackNote:"Prikazani status pohranjen je samo u ovom pregledniku.",
+footerNote:"Putem ove internetske stranice ne sklapa se automatski ugovor o kreditu."
+};
 /* DETECT VISITOR LANGUAGE */
 /* LANGUAGE SELECTION */
 
 const supportedLanguages = [
-    "fr", "de", "en", "es", "it", "pt", "lt", "cs"
-];
+"fr", "de", "en", "es", "it", "pt", "lt", "cs", "hr"];
 
 function detectLanguage() {
     const savedLanguage = localStorage.getItem("toroLanguage");
