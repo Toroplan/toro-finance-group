@@ -775,33 +775,83 @@ if (whatsappButton) {
 
 
 /* AMOUNT */
+/* CREDIT SIMULATOR */
 
-const amountInput =
-    document.getElementById("amount");
+const amountInput = document.getElementById("amount");
+const estimate = document.getElementById("estimateAmount");
 
-const estimate =
-    document.getElementById("estimateAmount");
+const monthlyPayment = document.getElementById("monthlyPayment");
+const totalInterest = document.getElementById("totalInterest");
+const totalRepayment = document.getElementById("totalRepayment");
 
-if (amountInput && estimate) {
+const simulatorForm = document.getElementById("demoForm");
 
-    amountInput.addEventListener("input", function () {
+const annualRate = 0.04;
 
-        const value =
-            Number(this.value || 0);
+function updateCreditSimulation() {
 
-        estimate.textContent =
-            new Intl.NumberFormat(
-                detectedLanguage,
-                {
-                    style: "currency",
-                    currency: "EUR",
-                    maximumFractionDigits: 0
-                }
-            ).format(value);
+    const amount = Number(amountInput?.value || 0);
 
-    });
+    const durationValue = Number(
+        simulatorForm?.querySelector('[name="durationValue"]')?.value || 0
+    );
 
+    const durationUnit =
+        simulatorForm?.querySelector('[name="durationUnit"]')?.value;
+
+    const months = durationUnit === "years"
+        ? durationValue * 12
+        : durationValue;
+
+    const format = new Intl.NumberFormat(
+        detectedLanguage,
+        {
+            style: "currency",
+            currency: "EUR",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }
+    );
+
+    if (estimate) {
+        estimate.textContent = format.format(amount);
+    }
+
+    if (amount <= 0 || months <= 0) {
+        if (monthlyPayment) monthlyPayment.textContent = "0 €";
+        if (totalInterest) totalInterest.textContent = "0 €";
+        if (totalRepayment) totalRepayment.textContent = "0 €";
+        return;
+    }
+
+    const monthlyRate = annualRate / 12;
+
+    const payment =
+        amount * monthlyRate /
+        (1 - Math.pow(1 + monthlyRate, -months));
+
+    const repayment = payment * months;
+    const interest = repayment - amount;
+
+    if (monthlyPayment) {
+        monthlyPayment.textContent = format.format(payment);
+    }
+
+    if (totalInterest) {
+        totalInterest.textContent = format.format(interest);
+    }
+
+    if (totalRepayment) {
+        totalRepayment.textContent = format.format(repayment);
+    }
 }
+
+if (simulatorForm) {
+    simulatorForm.addEventListener("input", updateCreditSimulation);
+    simulatorForm.addEventListener("change", updateCreditSimulation);
+}
+
+updateCreditSimulation();
 
 
 /* APPLICATION REFERENCE */
