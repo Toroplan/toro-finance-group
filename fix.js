@@ -280,34 +280,8 @@ if (form) {
                     : "";
 
 
-            /* ==============================
-               GENERATE REFERENCE
-            ============================== */
-
-            const reference =
-                "TF-" +
-                new Date()
-                    .getFullYear() +
-                "-" +
-                Math.floor(
-                    100000 +
-                    Math.random() *
-                    900000
-                );
-
-
             const referenceField =
-                document.getElementById(
-                    "emailReference"
-                );
-
-
-            if (referenceField) {
-
-                referenceField.value =
-                    reference;
-
-            }
+                document.getElementById("emailReference");
 
 
             /* ==============================
@@ -393,9 +367,6 @@ if (form) {
 
             const application = {
 
-                reference:
-                    reference,
-
                 first_name:
                     firstName,
 
@@ -443,10 +414,17 @@ if (form) {
     }
 );
 
-if (!response.ok) {
-    const error = await response.text();
-    console.error("Submit-loan error:", error);
+const responseData = await response.json().catch(() => ({}));
+
+if (!response.ok || !responseData.ok || !responseData.reference) {
+    console.error("Submit-loan error:", responseData);
     throw new Error("Supabase insert failed");
+}
+
+const reference = responseData.reference;
+
+if (referenceField) {
+    referenceField.value = reference;
 }
                 /* ==============================
                    LOCAL STORAGE
