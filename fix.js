@@ -183,7 +183,9 @@ if (whatsappButton) {
         "Sveiki Toro Finance Group, noriu pateikti finansavimo paraišką.",
 
         fr:
-        "Bonjour Toro Finance Group, je souhaite faire une demande de financement."
+        "Bonjour Toro Finance Group, je souhaite faire une demande de financement.",
+       hr:
+"Poštovani Toro Finance Group, želim podnijeti zahtjev za financiranje."
 
     };
 
