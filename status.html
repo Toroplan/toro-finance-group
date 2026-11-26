@@ -291,63 +291,11 @@ const submitButton =
 
 const languageSelector =
     document.getElementById("statusLanguageSelector");
-const statusLabels = {
-    fr: {
-        pending: "En attente",
-        reviewing: "En étude",
-        more_info: "Informations complémentaires",
-        approved: "Approuvé",
-        rejected: "Refusé"
-    },
-    hr: {
-        pending: "Na čekanju",
-        reviewing: "U obradi",
-        more_info: "Dodatne informacije",
-        approved: "Odobreno",
-        rejected: "Odbijeno"
-    }
+const uiText = {"fr":["Suivi de votre demande","Entrez la référence communiquée après l'envoi de votre demande afin de consulter son état.","Référence","Ex. TF-2026-123456","Consulter le dossier","Le statut affiché correspond aux informations enregistrées dans le système de Toro Finance Group. Une décision de financement reste soumise à l'étude du dossier et aux critères applicables.","Produit","Montant","Durée de remboursement","Date de demande","Statut","En attente","En étude","Informations complémentaires","Approuvé","Refusé",currentText()[16],currentText()[17],currentText()[18],currentText()[19],currentText()[20],"fr-FR"],"de":["Verfolgung Ihres Antrags","Geben Sie die Referenznummer ein, die Sie nach dem Absenden Ihres Antrags erhalten haben, um den Status einzusehen.","Referenznummer","Z. B. TF-2026-123456","Antrag anzeigen","Der angezeigte Status entspricht den im System der Toro Finance Group gespeicherten Informationen. Eine Finanzierungsentscheidung hängt von der Prüfung des Antrags und den geltenden Kriterien ab.","Produkt","Betrag","Rückzahlungsdauer","Antragsdatum","Status","Ausstehend","In Prüfung","Zusätzliche Informationen","Genehmigt","Abgelehnt","Bitte geben Sie Ihre Referenznummer ein.","Antrag wird gesucht…","Der Antrag kann derzeit nicht abgerufen werden.","Zu dieser Referenznummer wurde kein Antrag gefunden.","Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.","de-DE"],"en":["Track your application","Enter the reference number provided after submitting your application to check its status.","Reference number","e.g. TF-2026-123456","Check application","The displayed status reflects the information recorded in the Toro Finance Group system. Any financing decision remains subject to application review and applicable criteria.","Product","Amount","Repayment term","Application date","Status","Pending","Under review","Additional information required","Approved","Rejected","Please enter your reference number.","Searching for your application…","Your application cannot be checked at the moment.","No application matches this reference number.","An error occurred. Please try again.","en-GB"],"es":["Seguimiento de su solicitud","Introduzca la referencia que recibió después de enviar su solicitud para consultar su estado.","Número de referencia","Ej. TF-2026-123456","Consultar solicitud","El estado mostrado corresponde a la información registrada en el sistema de Toro Finance Group. Toda decisión de financiación está sujeta al estudio de la solicitud y a los criterios aplicables.","Producto","Importe","Plazo de reembolso","Fecha de solicitud","Estado","Pendiente","En estudio","Información adicional","Aprobada","Rechazada","Introduzca su número de referencia.","Buscando la solicitud…","No se puede consultar la solicitud en este momento.","No se encontró ninguna solicitud con esta referencia.","Se ha producido un error. Inténtelo de nuevo.","es-ES"],"it":["Stato della richiesta","Inserisci il codice di riferimento ricevuto dopo l'invio della richiesta per verificarne lo stato.","Codice di riferimento","Es. TF-2026-123456","Consulta la richiesta","Lo stato visualizzato corrisponde alle informazioni registrate nel sistema di Toro Finance Group. Ogni decisione di finanziamento è soggetta alla valutazione della richiesta e ai criteri applicabili.","Prodotto","Importo","Durata del rimborso","Data della richiesta","Stato","In attesa","In valutazione","Informazioni aggiuntive","Approvata","Rifiutata","Inserisci il codice di riferimento.","Ricerca della richiesta…","Impossibile consultare la richiesta al momento.","Nessuna richiesta corrisponde a questo codice.","Si è verificato un errore. Riprova.","it-IT"],"pt":["Acompanhar o seu pedido","Introduza a referência que recebeu após enviar o seu pedido para consultar o respetivo estado.","Número de referência","Ex.: TF-2026-123456","Consultar pedido","O estado apresentado corresponde às informações registadas no sistema da Toro Finance Group. Qualquer decisão de financiamento está sujeita à análise do pedido e aos critérios aplicáveis.","Produto","Montante","Prazo de reembolso","Data do pedido","Estado","Pendente","Em análise","Informações adicionais","Aprovado","Rejeitado","Introduza o seu número de referência.","A procurar o pedido…","Não é possível consultar o pedido neste momento.","Não foi encontrado nenhum pedido com esta referência.","Ocorreu um erro. Tente novamente.","pt-PT"],"lt":["Jūsų paraiškos būsena","Įveskite nuorodos numerį, kurį gavote pateikę paraišką, kad galėtumėte patikrinti jos būseną.","Nuorodos numeris","Pvz., TF-2026-123456","Tikrinti paraišką","Rodoma būsena atitinka „Toro Finance Group“ sistemoje užregistruotą informaciją. Sprendimas dėl finansavimo priimamas įvertinus paraišką ir taikomus kriterijus.","Produktas","Suma","Grąžinimo terminas","Paraiškos data","Būsena","Laukiama","Nagrinėjama","Reikia papildomos informacijos","Patvirtinta","Atmesta","Įveskite nuorodos numerį.","Ieškoma paraiškos…","Šiuo metu paraiškos patikrinti nepavyksta.","Paraiška pagal šį nuorodos numerį nerasta.","Įvyko klaida. Bandykite dar kartą.","lt-LT"],"cs":["Sledování vaší žádosti","Zadejte referenční číslo, které jste obdrželi po odeslání žádosti, a zobrazte její stav.","Referenční číslo","Např. TF-2026-123456","Zkontrolovat žádost","Zobrazený stav odpovídá informacím uloženým v systému Toro Finance Group. Rozhodnutí o financování podléhá posouzení žádosti a příslušným kritériím.","Produkt","Částka","Doba splácení","Datum žádosti","Stav","Čeká na vyřízení","V posuzování","Doplňující informace","Schváleno","Zamítnuto","Zadejte své referenční číslo.","Vyhledávání žádosti…","V tuto chvíli nelze žádost zobrazit.","K tomuto referenčnímu číslu nebyla nalezena žádná žádost.","Došlo k chybě. Zkuste to prosím znovu.","cs-CZ"],"hr":["Praćenje vašeg zahtjeva","Unesite referentni broj koji ste dobili nakon slanja zahtjeva kako biste provjerili njegov status.","Referentni broj","Npr. TF-2026-123456","Provjeri zahtjev","Prikazani status odgovara informacijama pohranjenima u sustavu Toro Finance Group. Odluka o financiranju ovisi o procjeni zahtjeva i primjenjivim kriterijima.","Proizvod","Iznos","Rok otplate","Datum zahtjeva","Status","Na čekanju","U obradi","Dodatne informacije","Odobreno","Odbijeno","Unesite svoj referentni broj.","Pretraživanje zahtjeva…","Trenutačno nije moguće provjeriti zahtjev.","Nije pronađen zahtjev s ovim referentnim brojem.","Došlo je do pogreške. Pokušajte ponovno.","hr-HR"]};
+function currentText(){const lang=languageSelector?languageSelector.value:'fr';return uiText[lang]||uiText.fr;}
+function applyPageTranslations(){const t=currentText();const lang=languageSelector?languageSelector.value:'fr';document.documentElement.lang=lang;document.getElementById('statusTitle').textContent=t[0];document.getElementById('statusIntro').textContent=t[1];document.getElementById('referenceLabel').textContent=t[2];referenceInput.placeholder=t[3];document.getElementById('submitButtonText').textContent=t[4];document.getElementById('statusNote').textContent=t[5];}
+if(languageSelector){languageSelector.addEventListener('change',applyPageTranslations);}applyPageTranslations();
 
-};
-const pageTranslations = {
-    fr: {
-        title: "Suivi de votre demande",
-        intro: "Entrez la référence qui vous a été communiquée après l'envoi de votre demande afin de consulter son état.",
-        reference: "Référence",
-        placeholder: "Ex. TF-2026-123456",
-        button: "Consulter le dossier",
-        note: "Le statut affiché correspond aux informations enregistrées dans le système de Toro Finance Group. Une décision de financement reste soumise à l'étude du dossier et aux critères applicables."
-    },
-    hr: {
-        title: "Praćenje vašeg zahtjeva",
-        intro: "Unesite referentni broj koji ste dobili nakon slanja zahtjeva kako biste provjerili njegov status.",
-        reference: "Referentni broj",
-        placeholder: "Npr. TF-2026-123456",
-        button: "Provjeri zahtjev",
-        note: "Prikazani status odgovara informacijama pohranjenima u sustavu Toro Finance Group. Odluka o financiranju ovisi o procjeni zahtjeva i primjenjivim kriterijima."
-    }
-};
-function applyPageTranslations() {
-    const currentLanguage =
-        languageSelector ? languageSelector.value : "fr";
-
-    const t =
-        pageTranslations[currentLanguage] || pageTranslations.fr;
-
-    document.documentElement.lang = currentLanguage;
-
-    document.getElementById("statusTitle").textContent = t.title;
-    document.getElementById("statusIntro").textContent = t.intro;
-    document.getElementById("referenceLabel").textContent = t.reference;
-    referenceInput.placeholder = t.placeholder;
-    document.getElementById("submitButtonText").textContent = t.button;
-    document.getElementById("statusNote").textContent = t.note;
-}
-
-if (languageSelector) {
-    languageSelector.addEventListener("change", applyPageTranslations);
-}
-
-applyPageTranslations();
 function escapeHtml(value) {
 
     return String(value ?? "")
@@ -376,7 +324,7 @@ function formatAmount(value) {
 
 
     return new Intl.NumberFormat(
-        "fr-FR",
+        currentText()[21],
         {
             style: "currency",
             currency: "EUR",
@@ -404,115 +352,18 @@ function formatDate(value) {
 }
 
 
-function showError(message) {
-
-    result.innerHTML = `
-        <div class="error">
-            ${escapeHtml(message)}
-        </div>
-    `;
-
-}
+function showError(message){result.innerHTML='<div class="error">'+escapeHtml(message)+'</div>';}
 
 
 function showResult(application) {
-
-    const currentLanguage =
-    languageSelector ? languageSelector.value : "fr";
-
-const status =
-    (statusLabels[currentLanguage] &&
-     statusLabels[currentLanguage][application.status])
-    || application.status
-    || "—";
-
-
-    result.innerHTML = `
-
-        <div class="result-card">
-
-            <div class="row">
-
-                <span class="label">
-                    Référence
-                </span>
-
-                <span class="value">
-                    ${escapeHtml(application.reference)}
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span class="label">
-                    Produit
-                </span>
-
-                <span class="value">
-                    ${escapeHtml(application.product)}
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span class="label">
-                    Montant
-                </span>
-
-                <span class="value">
-                    ${formatAmount(application.amount)}
-                </span>
-
-                            <div class="row">
-
-                    <span class="label">
-                        Durée de remboursement
-                    </span>
-
-                    <span class="value">
-                        ${escapeHtml(application.repayment_duration || "—")}
-                    </span>
-
-                </div>
-
-
-            <div class="row">
-
-                <span class="label">
-                    Date de demande
-                </span>
-
-                <span class="value">
-                    ${formatDate(application.created_at)}
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span class="label">
-                    Statut
-                </span>
-
-                <span class="value">
-
-                    <span class="status">
-                        ${escapeHtml(status)}
-                    </span>
-
-                </span>
-
-            </div>
-
-        </div>
-
-    `;
-
+ const t=currentText();const statusMap={pending:11,reviewing:12,more_info:13,approved:14,rejected:15};const status=t[statusMap[application.status]]||application.status||"—";
+ result.innerHTML='<div class="result-card">'+
+ '<div class="row"><span class="label">'+t[2]+'</span><span class="value">'+escapeHtml(application.reference)+'</span></div>'+
+ '<div class="row"><span class="label">'+t[6]+'</span><span class="value">'+escapeHtml(application.product)+'</span></div>'+
+ '<div class="row"><span class="label">'+t[7]+'</span><span class="value">'+formatAmount(application.amount)+'</span></div>'+
+ '<div class="row"><span class="label">'+t[8]+'</span><span class="value">'+escapeHtml(application.repayment_duration||"—")+'</span></div>'+
+ '<div class="row"><span class="label">'+t[9]+'</span><span class="value">'+formatDate(application.created_at)+'</span></div>'+
+ '<div class="row"><span class="label">'+t[10]+'</span><span class="value"><span class="status">'+escapeHtml(status)+'</span></span></div></div>';
 }
 
 
