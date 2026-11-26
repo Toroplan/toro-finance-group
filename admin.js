@@ -633,6 +633,23 @@ async function openApplicationDetails(id) {
         <div id="notesList">${notes.length ? notes.map(n => `<div class="note-item"><small>${dateValue(n.created_at)}</small><div>${escapeHtml(n.note)}</div></div>`).join("") : '<p class="muted">Aucune note interne.</p>'}</div>
       </div>
       <div class="detail-section">
+        <h3>Offres de financement</h3>
+        <p class="muted">Les frais sont indiqués séparément du capital et du coût des intérêts.</p>
+        <div class="offer-form-grid">
+          <label>Capital proposé (€)<input id="offerPrincipal" type="number" min="0.01" step="0.01" value="${escapeHtml(item.amount || "")}" required></label>
+          <label>Taux annuel (%)<input id="offerRate" type="number" min="0" max="100" step="0.01" value="4" required></label>
+          <label>Durée (mois)<input id="offerDuration" type="number" min="1" max="360" step="1" value="24" required></label>
+          <label>Frais totaux (€)<input id="offerFees" type="number" min="0" step="0.01" value="0" required></label>
+          <label>Valable jusqu’au<input id="offerValidUntil" type="date"></label>
+          <label>Méthode<select id="offerMethod"><option value="constant_monthly_installment">Mensualités constantes</option><option value="equal_principal">Capital constant</option></select></label>
+        </div>
+        <label>Conditions et informations<textarea id="offerDisclosures" maxlength="3000" placeholder="Décrire les conditions, frais et modalités applicables."></textarea></label>
+        <button type="button" class="gold" id="calculateOffer">Calculer l’échéancier</button>
+        <div id="offerPreview"></div>
+        <button type="button" class="dark" id="saveOffer" disabled>Enregistrer en brouillon</button>
+        <span id="offerMessage" class="status-msg"></span><div id="offersList"></div>
+      </div>
+      <div class="detail-section">
         <h3>Documents justificatifs</h3>
         <p class="muted">Fichiers privés, accessibles uniquement aux administrateurs autorisés. PDF, JPG, PNG ou WEBP — 10 Mo maximum par fichier.</p>
         <input type="file" id="applicationDocument" accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp">
@@ -644,6 +661,127 @@ async function openApplicationDetails(id) {
         <h3>Historique des statuts</h3>
         <div>${history.length ? history.map(x => `<div class="history-item">${escapeHtml(statusLabels[x.old_status] || x.old_status || "Création")} → <strong>${escapeHtml(statusLabels[x.new_status] || x.new_status)}</strong><br><small>${dateValue(x.changed_at)}</small></div>`).join("") : '<p class="muted">Aucun changement de statut enregistré.</p>'}</div>
       </div>`;
+
+
+    let calculatedOffer = null;
+    const offerPreview = document.getElementById("offerPreview");
+    const offerMessage = document.getElementById("offerMessage");
+    const saveOfferButton = document.getElementById("saveOffer");
+
+    function buildOfferSchedule(principal, rate, months, fees, method) {
+      const monthlyRate = rate / 1200;
+      let balance = principal;
+      let totalInterest = 0;
+      let totalPrincipal = 0;
+      const rows = [];
+      const fixedPayment = monthlyRate === 0 ? principal / months :
+        principal * monthlyRate / (1 - Math.pow(1 + monthlyRate, -months));
+      const equalPrincipal = Math.round(principal / months * 100) / 100;
+      for (let month = 1; month <= months; month++) {
+        const interest = Math.round(balance * monthlyRate * 100) / 100;
+        const capital = method === "equal_principal" ?
+          (month === months ? balance : Math.min(balance, equalPrincipal)) :
+          (month === months ? balance : Math.min(balance, Math.round((fixedPayment - interest) * 100) / 100));
+        const payment = Math.round((capital + interest) * 100) / 100;
+        balance = Math.max(0, Math.round((balance - capital) * 100) / 100);
+        totalInterest += interest;
+        totalPrincipal += capital;
+        rows.push({month, payment, principal:capital, interest, remaining_balance:balance});
+      }
+      return {
+        rows,
+        monthlyPayment: method === "equal_principal" ?
+          Math.round(rows.reduce((sum,row) => sum + row.payment, 0) / months * 100) / 100 :
+          rows[0].payment,
+        totalInterest: Math.round(totalInterest * 100) / 100,
+        totalFees: fees,
+        totalRepayable: Math.round((totalPrincipal + totalInterest + fees) * 100) / 100
+      };
+    }
+
+    async function loadOffers() {
+      const list = document.getElementById("offersList");
+      const result = await db.from("loan_offers")
+        .select("offer_reference,principal,annual_interest_rate,duration_months,monthly_payment,total_interest,total_fees,total_repayable,status,valid_until,created_at")
+        .eq("application_id", id).order("created_at",{ascending:false});
+      if (result.error) {
+        list.textContent = "Impossible de charger les offres.";
+        console.error(result.error);
+        return;
+      }
+      list.innerHTML = (result.data || []).map(offer =>
+        "<article class='note-item'><strong>" + escapeHtml(offer.offer_reference) + "</strong> — " +
+        escapeHtml(offer.status) + "<br>Capital : " + money(offer.principal) +
+        " · Taux : " + escapeHtml(offer.annual_interest_rate) + " % · Durée : " +
+        escapeHtml(offer.duration_months) + " mois<br>Mensualité indicative : " +
+        money(offer.monthly_payment) + " · Intérêts : " + money(offer.total_interest) +
+        " · Frais : " + money(offer.total_fees) + " · Total : " + money(offer.total_repayable) +
+        "<small>Créée le " + dateValue(offer.created_at) + "</small></article>"
+      ).join("") || "<p class='muted'>Aucune offre pour ce dossier.</p>";
+    }
+
+    document.getElementById("calculateOffer").addEventListener("click", () => {
+      const principal = Number(document.getElementById("offerPrincipal").value);
+      const rate = Number(document.getElementById("offerRate").value);
+      const months = Number(document.getElementById("offerDuration").value);
+      const fees = Number(document.getElementById("offerFees").value);
+      const method = document.getElementById("offerMethod").value;
+      if (!Number.isFinite(principal) || principal <= 0 || !Number.isFinite(rate) ||
+          rate < 0 || rate > 100 || !Number.isInteger(months) || months < 1 ||
+          months > 360 || !Number.isFinite(fees) || fees < 0) {
+        offerMessage.textContent = "Vérifiez le capital, le taux, la durée et les frais.";
+        offerMessage.className = "status-msg bad";
+        return;
+      }
+      calculatedOffer = {
+        principal, rate, months, fees, method,
+        validUntil: document.getElementById("offerValidUntil").value || null,
+        disclosures: document.getElementById("offerDisclosures").value.trim(),
+        ...buildOfferSchedule(principal,rate,months,fees,method)
+      };
+      let table = "<div class='table-wrap'><table><thead><tr><th>Mois</th><th>Mensualité</th><th>Capital</th><th>Intérêts</th><th>Solde</th></tr></thead><tbody>";
+      calculatedOffer.rows.forEach(row => {
+        table += "<tr><td>"+row.month+"</td><td>"+money(row.payment)+"</td><td>"+money(row.principal)+"</td><td>"+money(row.interest)+"</td><td>"+money(row.remaining_balance)+"</td></tr>";
+      });
+      table += "</tbody></table></div>";
+      offerPreview.innerHTML = "<p><strong>Mensualité de départ : "+money(calculatedOffer.monthlyPayment)+
+        "</strong><br>Intérêts : "+money(calculatedOffer.totalInterest)+
+        " · Frais séparés : "+money(fees)+"<br>Total à rembourser : "+
+        money(calculatedOffer.totalRepayable)+"</p>"+table+
+        "<p class='muted'>La dernière échéance peut différer légèrement en raison des arrondis.</p>";
+      offerMessage.textContent = "Échéancier calculé. Vérifiez les conditions avant de sauvegarder.";
+      offerMessage.className = "status-msg ok";
+      saveOfferButton.disabled = false;
+    });
+
+    saveOfferButton.addEventListener("click", async () => {
+      if (!calculatedOffer) return;
+      saveOfferButton.disabled = true;
+      offerMessage.textContent = "Enregistrement…";
+      const offerRef = "OFF-" + new Date().getFullYear() + "-" + crypto.randomUUID().slice(0,8).toUpperCase();
+      const payload = {
+        application_id:id, offer_reference:offerRef, principal:calculatedOffer.principal,
+        currency:"EUR", annual_interest_rate:calculatedOffer.rate,
+        duration_months:calculatedOffer.months, repayment_method:calculatedOffer.method,
+        monthly_payment:calculatedOffer.monthlyPayment, total_interest:calculatedOffer.totalInterest,
+        total_fees:calculatedOffer.totalFees, total_repayable:calculatedOffer.totalRepayable,
+        schedule:calculatedOffer.rows, disclosures:calculatedOffer.disclosures,
+        valid_until:calculatedOffer.validUntil, status:"draft"
+      };
+      const result = await db.from("loan_offers").insert(payload);
+      if (result.error) {
+        console.error("offer save error:",result.error);
+        offerMessage.textContent = "L’offre n’a pas pu être enregistrée.";
+        offerMessage.className = "status-msg bad";
+        saveOfferButton.disabled = false;
+        return;
+      }
+      offerMessage.textContent = "Offre enregistrée en brouillon. Elle n’a pas été envoyée au client.";
+      offerMessage.className = "status-msg ok";
+      calculatedOffer = null;
+      await loadOffers();
+    });
+    loadOffers();
 
     document.getElementById("saveDecisionReason").addEventListener("click", async () => {
         const reason = document.getElementById("decisionReasonInput").value.trim();
