@@ -633,6 +633,14 @@ async function openApplicationDetails(id) {
         <div id="notesList">${notes.length ? notes.map(n => `<div class="note-item"><small>${dateValue(n.created_at)}</small><div>${escapeHtml(n.note)}</div></div>`).join("") : '<p class="muted">Aucune note interne.</p>'}</div>
       </div>
       <div class="detail-section">
+        <h3>Documents justificatifs</h3>
+        <p class="muted">Fichiers privés, accessibles uniquement aux administrateurs autorisés. PDF, JPG, PNG ou WEBP — 10 Mo maximum par fichier.</p>
+        <input type="file" id="applicationDocument" accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp">
+        <button type="button" class="dark" id="uploadApplicationDocument">Téléverser le document</button>
+        <span id="documentMessage" class="status-msg"></span>
+        <div id="documentsList"><p class="muted">Chargement des documents…</p></div>
+      </div>
+      <div class="detail-section">
         <h3>Historique des statuts</h3>
         <div>${history.length ? history.map(x => `<div class="history-item">${escapeHtml(statusLabels[x.old_status] || x.old_status || "Création")} → <strong>${escapeHtml(statusLabels[x.new_status] || x.new_status)}</strong><br><small>${dateValue(x.changed_at)}</small></div>`).join("") : '<p class="muted">Aucun changement de statut enregistré.</p>'}</div>
       </div>`;
@@ -656,6 +664,61 @@ async function openApplicationDetails(id) {
         if (error) { alert("La note n’a pas pu être enregistrée."); console.error(error); return; }
         await openApplicationDetails(id);
     });
+
+    async function refreshApplicationDocuments() {
+      const list = document.getElementById("documentsList");
+      list.innerHTML = '<p class="muted">Chargement des documents…</p>';
+      const {data, error} = await db.storage.from("loan-documents").list(id, {limit:100, sortBy:{column:"name",order:"asc"}});
+      if (error) {
+        list.textContent = "Impossible de charger les documents.";
+        console.error(error);
+        return;
+      }
+      const files = (data || []).filter(file => file.name && file.id);
+      if (!files.length) {
+        list.innerHTML = '<p class="muted">Aucun document transmis.</p>';
+        return;
+      }
+      list.innerHTML = files.map(file =>
+        `<div class="note-item"><strong>${escapeHtml(file.name)}</strong> <button type="button" class="light document-open" data-name="${escapeHtml(file.name)}">Consulter</button><small>${dateValue(file.created_at)}</small></div>`
+      ).join("");
+      list.querySelectorAll(".document-open").forEach(button => button.addEventListener("click", async () => {
+        const {data: signed, error: signError} = await db.storage.from("loan-documents").createSignedUrl(id + "/" + button.dataset.name, 60);
+        if (signError) { console.error(signError); return; }
+        window.open(signed.signedUrl, "_blank", "noopener");
+      }));
+    }
+
+    document.getElementById("uploadApplicationDocument").addEventListener("click", async () => {
+      const input = document.getElementById("applicationDocument");
+      const msg = document.getElementById("documentMessage");
+      const file = input.files?.[0];
+      if (!file) { msg.textContent = "Choisissez un fichier."; msg.className = "status-msg bad"; return; }
+      const allowed = ["application/pdf","image/jpeg","image/png","image/webp"];
+      if (!allowed.includes(file.type) || file.size > 10 * 1024 * 1024) {
+        msg.textContent = "Format non autorisé ou fichier supérieur à 10 Mo.";
+        msg.className = "status-msg bad";
+        return;
+      }
+      const safeName = file.name.normalize("NFKD").replace(/[^a-zA-Z0-9._-]+/g,"_").slice(-100);
+      const objectPath = id + "/" + crypto.randomUUID() + "-" + safeName;
+      msg.textContent = "Téléversement en cours…";
+      msg.className = "status-msg";
+      const {error} = await db.storage.from("loan-documents").upload(objectPath, file, {upsert:false,contentType:file.type});
+      if (error) {
+        console.error("document upload error:", error);
+        msg.textContent = "Le téléversement a échoué. Vérifiez les droits et réessayez.";
+        msg.className = "status-msg bad";
+        return;
+      }
+      input.value = "";
+      msg.textContent = "Document téléversé.";
+      msg.className = "status-msg ok";
+      await refreshApplicationDocuments();
+    });
+
+    await refreshApplicationDocuments();
+
     detailPanel.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
