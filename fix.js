@@ -20,7 +20,7 @@ const SUPABASE_KEY =
    LANGUAGE
 ============================== */
 
-const language =
+let language =
     (
         document.documentElement.lang ||
         navigator.language ||
@@ -150,9 +150,21 @@ const messages = {
 };
 
 
-const text =
+let text =
     messages[language] ||
     messages.en;
+
+const pageLanguageSelector = document.getElementById("languageSelector");
+if (pageLanguageSelector) {
+    pageLanguageSelector.addEventListener("change", function () {
+        language = this.value;
+        text = messages[language] || messages.en;
+        if (whatsappButton) {
+            const nextMessage = whatsappMessages[language] || whatsappMessages.en;
+            whatsappButton.href = "https://wa.me/48729210027?text=" + encodeURIComponent(nextMessage);
+        }
+    });
+}
 
 
 /* ==============================
