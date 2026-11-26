@@ -289,7 +289,8 @@ const result =
 const submitButton =
     document.getElementById("submitButton");
 
-
+const languageSelector =
+    document.getElementById("statusLanguageSelector");
 const statusLabels = {
     fr: {
         pending: "En attente",
@@ -378,10 +379,14 @@ function showError(message) {
 
 function showResult(application) {
 
-    const status =
-        statusLabels[application.status]
-        || application.status
-        || "—";
+    const currentLanguage =
+    languageSelector ? languageSelector.value : "fr";
+
+const status =
+    (statusLabels[currentLanguage] &&
+     statusLabels[currentLanguage][application.status])
+    || application.status
+    || "—";
 
 
     result.innerHTML = `
