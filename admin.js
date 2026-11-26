@@ -702,22 +702,98 @@ async function openApplicationDetails(id) {
     async function loadOffers() {
       const list = document.getElementById("offersList");
       const result = await db.from("loan_offers")
-        .select("offer_reference,principal,annual_interest_rate,duration_months,monthly_payment,total_interest,total_fees,total_repayable,status,valid_until,created_at")
+        .select("id,offer_reference,principal,currency,annual_interest_rate,duration_months,repayment_method,monthly_payment,total_interest,total_fees,total_repayable,schedule,disclosures,status,valid_until,created_at,sent_at,sent_by")
         .eq("application_id", id).order("created_at",{ascending:false});
       if (result.error) {
         list.textContent = "Impossible de charger les offres.";
         console.error(result.error);
         return;
       }
-      list.innerHTML = (result.data || []).map(offer =>
+      const offers = result.data || [];
+      list.innerHTML = offers.map(offer =>
         "<article class='note-item'><strong>" + escapeHtml(offer.offer_reference) + "</strong> — " +
         escapeHtml(offer.status) + "<br>Capital : " + money(offer.principal) +
         " · Taux : " + escapeHtml(offer.annual_interest_rate) + " % · Durée : " +
         escapeHtml(offer.duration_months) + " mois<br>Mensualité indicative : " +
         money(offer.monthly_payment) + " · Intérêts : " + money(offer.total_interest) +
         " · Frais : " + money(offer.total_fees) + " · Total : " + money(offer.total_repayable) +
-        "<small>Créée le " + dateValue(offer.created_at) + "</small></article>"
+        "<small>Créée le " + dateValue(offer.created_at) +
+        (offer.sent_at ? " · Envoi confirmé le " + dateValue(offer.sent_at) : "") +
+        "</small><div class='offer-actions'><button type='button' class='dark copy-offer-message' data-offer-id='" +
+        escapeHtml(offer.id) + "'>Copier le message client</button>" +
+        (offer.status === "draft" ? " <button type='button' class='gold confirm-offer-sent' data-offer-id='" +
+        escapeHtml(offer.id) + "'>Confirmer l’envoi</button>" : "") +
+        "</div></article>"
       ).join("") || "<p class='muted'>Aucune offre pour ce dossier.</p>";
+
+      list.querySelectorAll(".copy-offer-message").forEach(button => {
+        button.addEventListener("click", async () => {
+          const offer = offers.find(item => item.id === button.dataset.offerId);
+          if (!offer) return;
+          const scheduleText = (offer.schedule || []).map(row =>
+            "Mois " + row.month + " : " + money(row.payment) +
+            " (capital " + money(row.principal) + ", intérêts " + money(row.interest) +
+            ", solde " + money(row.remaining_balance) + ")"
+          ).join("\\n");
+          const message = [
+            "Bonjour " + item.first_name + " " + item.last_name + ",",
+            "",
+            "Veuillez trouver les principales conditions de votre proposition de financement.",
+            "Référence de l’offre : " + offer.offer_reference,
+            "Capital proposé : " + money(offer.principal),
+            "Taux annuel : " + offer.annual_interest_rate + " %",
+            "Durée : " + offer.duration_months + " mois",
+            "Mensualité indicative : " + money(offer.monthly_payment),
+            "Intérêts : " + money(offer.total_interest),
+            "Frais : " + money(offer.total_fees),
+            "Total à rembourser : " + money(offer.total_repayable),
+            "Valable jusqu’au : " + (offer.valid_until || "Non précisé"),
+            offer.disclosures || "",
+            "",
+            "Échéancier :",
+            scheduleText,
+            "",
+            "Cette proposition reste soumise à votre examen et à votre acceptation expresse. Aucun financement n’est accepté ou débloqué par le seul envoi de cette proposition."
+          ].filter(Boolean).join("\\n");
+          try {
+            await navigator.clipboard.writeText(message);
+            offerMessage.textContent = "Message et échéancier copiés. Envoyez-les au client par votre canal habituel.";
+            offerMessage.className = "status-msg ok";
+          } catch (error) {
+            offerMessage.textContent = "Copie impossible sur cet appareil. Vérifiez les autorisations du navigateur.";
+            offerMessage.className = "status-msg bad";
+          }
+        });
+      });
+
+      list.querySelectorAll(".confirm-offer-sent").forEach(button => {
+        button.addEventListener("click", async () => {
+          const offer = offers.find(item => item.id === button.dataset.offerId);
+          if (!offer || offer.status !== "draft") return;
+          const user = userResult.data?.user;
+          if (!user) {
+            offerMessage.textContent = "Session administrateur introuvable.";
+            offerMessage.className = "status-msg bad";
+            return;
+          }
+          const confirmed = confirm("Confirmez uniquement si vous avez déjà envoyé cette offre au client par e-mail ou par un autre canal. Cette action ne déclenche aucun envoi automatique.");
+          if (!confirmed) return;
+          button.disabled = true;
+          const {error} = await db.from("loan_offers")
+            .update({status:"sent",sent_at:new Date().toISOString(),sent_by:user.id})
+            .eq("id",offer.id).eq("status","draft");
+          if (error) {
+            console.error("offer sent status error:",error);
+            offerMessage.textContent = "Impossible de confirmer l’envoi.";
+            offerMessage.className = "status-msg bad";
+            button.disabled = false;
+            return;
+          }
+          offerMessage.textContent = "Envoi externe confirmé et horodaté. Le client doit encore accepter explicitement l’offre.";
+          offerMessage.className = "status-msg ok";
+          await loadOffers();
+        });
+      });
     }
 
     document.getElementById("calculateOffer").addEventListener("click", () => {
