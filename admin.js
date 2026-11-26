@@ -799,7 +799,7 @@ async function openApplicationDetails(id) {
             return;
           }
           const link = "https://www.torofinancegroup.com/status.html?offer=" +
-            encodeURIComponent(offer.offer_reference) + "&key=" + accessKey;
+            encodeURIComponent(offer.offer_reference) + "#key=" + accessKey;
           try {
             await navigator.clipboard.writeText(link);
             offerMessage.textContent = "Lien sécurisé copié. Transmettez-le uniquement au client concerné. La création d’un nouveau lien invalide le précédent.";
