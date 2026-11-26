@@ -425,7 +425,7 @@ function showClientOffer(offer) {
 async function loadSecureOfferFromLink() {
  const params = new URLSearchParams(window.location.search);
  const offerReference = params.get("offer");
- const accessKey = params.get("key");
+ const accessKey = new URLSearchParams(window.location.hash.slice(1)).get("key");
  if (!offerReference && !accessKey) return;
  form.style.display = "none";
  document.getElementById("statusTitle").textContent = "Votre proposition de financement";
