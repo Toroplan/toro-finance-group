@@ -15,25 +15,30 @@
     it: ["Durata del rimborso", "Unità di durata", "Mesi", "Anni"],
     pt: ["Prazo de reembolso", "Unidade de duração", "Meses", "Anos"],
     lt: ["Grąžinimo laikotarpis", "Laikotarpio vienetas", "Mėnesiai", "Metai"],
-    hr: ["Rok otplate", "Jedinica trajanja", "Mjeseci", "Godine"]
+    hr: ["Rok otplate", "Jedinica trajanja", "Mjeseci", "Godine"],
+    cs: ["Doba splácení", "Jednotka doby", "Měsíce", "Roky"],
+    nl: ["Terugbetalingsduur", "Tijdseenheid", "Maanden", "Jaren"],
+    pl: ["Okres spłaty", "Jednostka czasu", "Miesiące", "Lata"],
+    sk: ["Doba splácania", "Časová jednotka", "Mesiace", "Roky"],
+    ro: ["Perioada de rambursare", "Unitatea de timp", "Luni", "Ani"]
   };
 
-  const t = labels[lang] || labels.en;
+  let t = labels[lang] || labels.en;
 
   const row = document.createElement("div");
   row.className = "form-grid duration-grid";
 
   row.innerHTML = `
     <label>
-      <span>${t[0]}</span>
+      <span id="durationTitle">${t[0]}</span>
       <input type="number" name="durationValue" min="1" max="360"
              step="1" required inputmode="numeric" placeholder="12">
     </label>
     <label>
-      <span>${t[1]}</span>
+      <span id="durationUnitLabel">${t[1]}</span>
       <select name="durationUnit" required>
-        <option value="months">${t[2]}</option>
-        <option value="years">${t[3]}</option>
+        <option id="durationMonths" value="months">${t[2]}</option>
+        <option id="durationYears" value="years">${t[3]}</option>
       </select>
     </label>
   `;
@@ -49,6 +54,21 @@
 
   const valueInput = row.querySelector('[name="durationValue"]');
   const unitSelect = row.querySelector('[name="durationUnit"]');
+
+  function refreshDurationLanguage() {
+    const current = (document.documentElement.lang || "en").toLowerCase().slice(0, 2);
+    t = labels[current] || labels.en;
+    row.querySelector("#durationTitle").textContent = t[0];
+    row.querySelector("#durationUnitLabel").textContent = t[1];
+    row.querySelector("#durationMonths").textContent = t[2];
+    row.querySelector("#durationYears").textContent = t[3];
+  }
+
+  const languageSelector = document.getElementById("languageSelector");
+  if (languageSelector) languageSelector.addEventListener("change", function () {
+    setTimeout(refreshDurationLanguage, 0);
+  });
+
 
   unitSelect.addEventListener("change", function () {
     valueInput.max = unitSelect.value === "years" ? "30" : "360";
