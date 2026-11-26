@@ -400,6 +400,58 @@ function showResult(application) {
 }
 
 
+function showClientOffer(offer) {
+ const rows = Array.isArray(offer.schedule) ? offer.schedule : [];
+ const schedule = rows.map(row =>
+   '<tr><td>'+escapeHtml(row.month)+'</td><td>'+formatAmount(row.payment)+'</td><td>'+
+   formatAmount(row.principal)+'</td><td>'+formatAmount(row.interest)+'</td><td>'+
+   formatAmount(row.remaining_balance)+'</td></tr>'
+ ).join("");
+ result.innerHTML = '<div class="result-card"><h2>Proposition de financement</h2>'+
+   '<div class="row"><span class="label">Référence</span><span class="value">'+escapeHtml(offer.offer_reference)+'</span></div>'+
+   '<div class="row"><span class="label">Capital proposé</span><span class="value">'+formatAmount(offer.principal)+'</span></div>'+
+   '<div class="row"><span class="label">Taux annuel</span><span class="value">'+escapeHtml(offer.annual_interest_rate)+' %</span></div>'+
+   '<div class="row"><span class="label">Durée</span><span class="value">'+escapeHtml(offer.duration_months)+' mois</span></div>'+
+   '<div class="row"><span class="label">Mensualité indicative</span><span class="value">'+formatAmount(offer.monthly_payment)+'</span></div>'+
+   '<div class="row"><span class="label">Total intérêts</span><span class="value">'+formatAmount(offer.total_interest)+'</span></div>'+
+   '<div class="row"><span class="label">Frais</span><span class="value">'+formatAmount(offer.total_fees)+'</span></div>'+
+   '<div class="row"><span class="label">Total à rembourser</span><span class="value">'+formatAmount(offer.total_repayable)+'</span></div>'+
+   '<div class="row"><span class="label">Valable jusqu’au</span><span class="value">'+escapeHtml(offer.valid_until||"Non précisé")+'</span></div>'+
+   (offer.disclosures ? '<p>'+escapeHtml(offer.disclosures).replaceAll("\n","<br>")+'</p>' : '')+
+   '<h3>Échéancier détaillé</h3><div style="overflow-x:auto"><table><thead><tr><th>Mois</th><th>Échéance</th><th>Capital</th><th>Intérêts</th><th>Solde</th></tr></thead><tbody>'+schedule+'</tbody></table></div>'+
+   '<p class="note">Cette proposition est soumise à votre examen et à votre acceptation expresse. La consultation de cette page ne vaut pas acceptation du financement ni engagement de déblocage des fonds.</p></div>';
+}
+
+async function loadSecureOfferFromLink() {
+ const params = new URLSearchParams(window.location.search);
+ const offerReference = params.get("offer");
+ const accessKey = params.get("key");
+ if (!offerReference && !accessKey) return;
+ form.style.display = "none";
+ document.getElementById("statusTitle").textContent = "Votre proposition de financement";
+ document.getElementById("statusIntro").textContent = "Consultez les conditions et l’échéancier de la proposition qui vous a été transmise.";
+ result.innerHTML = '<div class="loading">Chargement sécurisé de votre proposition…</div>';
+ if (!offerReference || !accessKey || !/^[a-f0-9]{64}$/i.test(accessKey)) {
+   showError("Lien incomplet ou invalide. Contactez Toro Finance Group pour obtenir un nouveau lien.");
+   return;
+ }
+ try {
+   const {data,error} = await supabaseClient.rpc("get_client_loan_offer", {
+     p_offer_reference:offerReference, p_access_key:accessKey
+   });
+   if (error) throw error;
+   const offer = Array.isArray(data) ? data[0] : data;
+   if (!offer) {
+     showError("Ce lien est invalide, a été remplacé ou l’offre n’est plus valable. Contactez Toro Finance Group.");
+     return;
+   }
+   showClientOffer(offer);
+ } catch (error) {
+   console.error("Secure offer lookup failed:",error);
+   showError("Impossible de consulter cette proposition pour le moment.");
+ }
+}
+
 form.addEventListener(
     "submit",
     async function(event) {
@@ -492,6 +544,9 @@ form.addEventListener(
 
     }
 );
+
+loadSecureOfferFromLink();
+
 
 </script>
 
