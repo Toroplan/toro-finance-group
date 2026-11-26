@@ -42,6 +42,12 @@ const count =
 const saveMessage =
     document.getElementById("saveMessage");
 
+const detailPanel = document.getElementById("detailPanel");
+const detailTitle = document.getElementById("detailTitle");
+const detailContent = document.getElementById("detailContent");
+const closeDetailButton = document.getElementById("closeDetailButton");
+let activeApplicationId = null;
+
 
 /* STATUS */
 
@@ -234,7 +240,7 @@ function render() {
                     <th>Montant</th>
                     <th>Durée de remboursement</th>
                     <th>Reçue le</th>
-                    <th>Statut</th>
+                    <th>Statut</th><th>Fiche</th>
 
                 </tr>
 
@@ -364,6 +370,7 @@ function render() {
                             </select>
 
                         </td>
+                        <td><button type="button" class="detail-btn" data-detail-id="${escapeHtml(item.id)}">Ouvrir</button></td>
 
                     </tr>
 
@@ -375,6 +382,10 @@ function render() {
 
     `;
 
+
+    document.querySelectorAll(".detail-btn").forEach(button => {
+        button.addEventListener("click", () => openApplicationDetails(button.dataset.detailId));
+    });
 
     document
         .querySelectorAll(".statusSelect")
@@ -438,7 +449,7 @@ async function loadApplications() {
         .from("loan_applications")
 
         .select(
-            "id,reference,first_name,last_name,email,country,product,amount,status,whatsapp,created_at,updated_at,repayment_duration"
+            "id,reference,first_name,last_name,email,country,product,amount,status,whatsapp,created_at,updated_at,repayment_duration,decision_reason"
         )
 
         .order(
@@ -574,6 +585,84 @@ async function updateStatus(
 
 }
 
+
+
+/* APPLICATION DETAIL FILE */
+async function openApplicationDetails(id) {
+    const item = applications.find(row => row.id === id);
+    if (!item) return;
+    activeApplicationId = id;
+    detailPanel.classList.remove("hidden");
+    detailTitle.textContent = `Dossier ${item.reference || ""}`;
+    detailContent.innerHTML = '<div class="loading">Chargement de la fiche…</div>';
+
+    const [userResult, notesResult, historyResult] = await Promise.all([
+        db.auth.getUser(),
+        db.from("admin_application_notes").select("id,note,created_at,author_id").eq("application_id", id).order("created_at", {ascending:false}),
+        db.from("loan_application_status_history").select("old_status,new_status,changed_at,changed_by").eq("application_id", id).order("changed_at", {ascending:false})
+    ]);
+
+    if (notesResult.error || historyResult.error) {
+        detailContent.textContent = "Impossible de charger les notes ou l’historique. Vérifiez les droits administrateur.";
+        console.error(notesResult.error || historyResult.error);
+        return;
+    }
+
+    const notes = notesResult.data || [];
+    const history = historyResult.data || [];
+    const fields = [
+      ["Nom", `${item.first_name || ""} ${item.last_name || ""}`],
+      ["E-mail", item.email], ["WhatsApp", item.whatsapp], ["Pays", item.country],
+      ["Produit", item.product], ["Montant", money(item.amount)],
+      ["Durée", item.repayment_duration], ["Référence", item.reference],
+      ["Reçue le", dateValue(item.created_at)], ["Dernière mise à jour", dateValue(item.updated_at)],
+      ["Statut", statusLabels[item.status] || item.status], ["Décision / motif", item.decision_reason || "Non renseigné"]
+    ];
+    detailContent.innerHTML = `
+      <div class="detail-grid">${fields.map(([label,value]) => `<div class="detail-card"><small>${escapeHtml(label)}</small><strong>${escapeHtml(value || "—")}</strong></div>`).join("")}</div>
+      <div class="detail-section">
+        <h3>Motif de décision</h3>
+        <textarea id="decisionReasonInput" maxlength="3000" placeholder="Indiquer le motif de la décision ou les éléments à communiquer…">${escapeHtml(item.decision_reason || "")}</textarea>
+        <button type="button" class="dark" id="saveDecisionReason">Enregistrer le motif</button>
+        <span id="decisionSaveMessage" class="status-msg"></span>
+      </div>
+      <div class="detail-section">
+        <h3>Notes internes</h3>
+        <textarea id="newAdminNote" maxlength="5000" placeholder="Ajouter une note interne (visible uniquement par les administrateurs)…"></textarea>
+        <button type="button" class="gold" id="addAdminNote">Ajouter la note</button>
+        <div id="notesList">${notes.length ? notes.map(n => `<div class="note-item"><small>${dateValue(n.created_at)}</small><div>${escapeHtml(n.note)}</div></div>`).join("") : '<p class="muted">Aucune note interne.</p>'}</div>
+      </div>
+      <div class="detail-section">
+        <h3>Historique des statuts</h3>
+        <div>${history.length ? history.map(x => `<div class="history-item">${escapeHtml(statusLabels[x.old_status] || x.old_status || "Création")} → <strong>${escapeHtml(statusLabels[x.new_status] || x.new_status)}</strong><br><small>${dateValue(x.changed_at)}</small></div>`).join("") : '<p class="muted">Aucun changement de statut enregistré.</p>'}</div>
+      </div>`;
+
+    document.getElementById("saveDecisionReason").addEventListener("click", async () => {
+        const reason = document.getElementById("decisionReasonInput").value.trim();
+        const msg = document.getElementById("decisionSaveMessage");
+        const {error} = await db.from("loan_applications").update({decision_reason:reason || null}).eq("id", id);
+        if (error) { msg.textContent = "Échec de l’enregistrement."; msg.className = "status-msg bad"; return; }
+        item.decision_reason = reason;
+        msg.textContent = "Motif enregistré."; msg.className = "status-msg ok";
+    });
+
+    document.getElementById("addAdminNote").addEventListener("click", async () => {
+        const input = document.getElementById("newAdminNote");
+        const note = input.value.trim();
+        if (!note) return;
+        const user = userResult.data?.user;
+        if (!user) return;
+        const {error} = await db.from("admin_application_notes").insert({application_id:id,author_id:user.id,note});
+        if (error) { alert("La note n’a pas pu être enregistrée."); console.error(error); return; }
+        await openApplicationDetails(id);
+    });
+    detailPanel.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+closeDetailButton.addEventListener("click", () => {
+    detailPanel.classList.add("hidden");
+    activeApplicationId = null;
+});
 
 /* SHOW DASHBOARD */
 
