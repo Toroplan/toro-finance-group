@@ -861,8 +861,15 @@ function applyLanguage(language) {
         updateCreditSimulation();
     }
 
+    window.dispatchEvent(new CustomEvent("toro:languagechange", {
+        detail: { language, dictionary }
+    }));
+
     return dictionary;
 }
+
+window.applyToroLanguage = applyLanguage;
+window.getToroLanguage = () => detectedLanguage;
 
 applyLanguage(detectedLanguage);
 
@@ -872,8 +879,12 @@ if (languageSelector) {
     languageSelector.value = detectedLanguage;
 
     languageSelector.addEventListener("change", function () {
-        localStorage.setItem("toroLanguage", this.value);
+        try { localStorage.setItem("toroLanguage", this.value); } catch (error) {}
         applyLanguage(this.value);
+    });
+
+    window.addEventListener("pageshow", function () {
+        applyLanguage(detectedLanguage);
     });
 }
 
