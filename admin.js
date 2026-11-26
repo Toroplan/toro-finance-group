@@ -722,7 +722,7 @@ async function openApplicationDetails(id) {
         "</small><div class='offer-actions'><button type='button' class='dark copy-offer-message' data-offer-id='" +
         escapeHtml(offer.id) + "'>Copier le message client</button>" +
         (offer.status === "draft" ? " <button type='button' class='gold confirm-offer-sent' data-offer-id='" +
-        escapeHtml(offer.id) + "'>Confirmer l’envoi</button>" : "") +
+        escapeHtml(offer.id) + "'>Envoyer par e-mail</button>" : "") +
         (offer.status === "sent" ? " <button type='button' class='dark create-offer-link' data-offer-id='" +
         escapeHtml(offer.id) + "'>Créer un lien sécurisé client</button>" : "") +
         "</div></article>"
@@ -816,30 +816,27 @@ async function openApplicationDetails(id) {
         button.addEventListener("click", async () => {
           const offer = offers.find(item => item.id === button.dataset.offerId);
           if (!offer || offer.status !== "draft") return;
-          const user = userResult.data?.user;
-          if (!user) {
-            offerMessage.textContent = "Session administrateur introuvable.";
-            offerMessage.className = "status-msg bad";
-            return;
-          }
-          const confirmed = confirm("Confirmez uniquement si vous avez déjà envoyé cette offre au client par e-mail ou par un autre canal. Cette action ne déclenche aucun envoi automatique.");
-          if (!confirmed) return;
+          if (!confirm("Envoyer cette proposition et son échéancier à l’adresse e-mail enregistrée pour le client ?")) return;
           button.disabled = true;
-          const {error} = await db.from("loan_offers")
-            .update({status:"sent",sent_at:new Date().toISOString(),sent_by:user.id})
-            .eq("id",offer.id).eq("status","draft");
-          if (error) {
-            console.error("offer sent status error:",error);
-            offerMessage.textContent = "Impossible de confirmer l’envoi.";
+          offerMessage.textContent = "Envoi de l’offre par e-mail…";
+          offerMessage.className = "status-msg";
+          const {data,error} = await db.functions.invoke("send-loan-offer", {
+            body:{offer_id:offer.id}
+          });
+          if (error || !data?.ok) {
+            console.error("offer email dispatch error:",error || data);
+            const detail = data?.error || error?.message || "Erreur inconnue";
+            offerMessage.textContent = "Envoi non confirmé : " + detail;
             offerMessage.className = "status-msg bad";
             button.disabled = false;
             return;
           }
-          offerMessage.textContent = "Envoi externe confirmé et horodaté. Le client doit encore accepter explicitement l’offre.";
+          offerMessage.textContent = "E-mail accepté par le prestataire pour " + data.recipient + ". Référence : " + data.offer_reference + ". Le lien sécurisé est inclus dans le message.";
           offerMessage.className = "status-msg ok";
           await loadOffers();
         });
       });
+;
     }
 
     document.getElementById("calculateOffer").addEventListener("click", () => {
