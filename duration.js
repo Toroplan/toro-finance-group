@@ -14,7 +14,8 @@
     es: ["Plazo de reembolso", "Unidad de duración", "Meses", "Años"],
     it: ["Durata del rimborso", "Unità di durata", "Mesi", "Anni"],
     pt: ["Prazo de reembolso", "Unidade de duração", "Meses", "Anos"],
-    lt: ["Grąžinimo laikotarpis", "Laikotarpio vienetas", "Mėnesiai", "Metai"]
+    lt: ["Grąžinimo laikotarpis", "Laikotarpio vienetas", "Mėnesiai", "Metai"],
+    hr: ["Rok otplate", "Jedinica trajanja", "Mjeseci", "Godine"]
   };
 
   const t = labels[lang] || labels.en;
