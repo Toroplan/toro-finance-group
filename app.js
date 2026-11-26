@@ -675,6 +675,8 @@ cs: {
 
     footerNote:"Prostřednictvím tohoto webu není automaticky uzavírána žádná úvěrová smlouva."
 },
+};
+
     /* CROATIAN TRANSLATION */
 
 translations.hr = {
