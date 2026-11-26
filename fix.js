@@ -190,7 +190,12 @@ if (whatsappButton) {
         fr:
         "Bonjour Toro Finance Group, je souhaite faire une demande de financement.",
        hr:
-"Poštovani Toro Finance Group, želim podnijeti zahtjev za financiranje."
+"Poštovani Toro Finance Group, želim podnijeti zahtjev za financiranje.",
+        cs:"Dobrý den, Toro Finance Group, mám zájem o financování.",
+        nl:"Hallo Toro Finance Group, ik wil graag een financieringsaanvraag indienen.",
+        pl:"Dzień dobry Toro Finance Group, chcę złożyć wniosek o finansowanie.",
+        sk:"Dobrý deň, Toro Finance Group, chcem podať žiadosť o financovanie.",
+        ro:"Bună ziua, Toro Finance Group, doresc să depun o cerere de finanțare."
 
     };
 
