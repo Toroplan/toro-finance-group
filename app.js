@@ -776,6 +776,25 @@ Object.keys(trustTranslations).forEach(lang=>{
  translations[lang].trust2=trustTranslations[lang][1];
  translations[lang].trust3=trustTranslations[lang][2];
 });
+ 
+// Complete labels used by the homepage but absent from the original dictionaries.
+const additionalTranslations = {
+ fr: { whatsappNumber:"Numéro WhatsApp", trackReference:"Saisissez votre référence", trackButton:"Vérifier le statut" },
+ de: { whatsappNumber:"WhatsApp-Nummer", trackReference:"Geben Sie Ihre Referenz ein", trackButton:"Status prüfen" },
+ en: { whatsappNumber:"WhatsApp number", trackReference:"Enter your reference", trackButton:"Check status" },
+ es: { whatsappNumber:"Número de WhatsApp", trackReference:"Introduzca su referencia", trackButton:"Consultar estado" },
+ it: { whatsappNumber:"Numero WhatsApp", trackReference:"Inserisci il tuo riferimento", trackButton:"Verifica lo stato" },
+ pt: { whatsappNumber:"Número do WhatsApp", trackReference:"Insira a sua referência", trackButton:"Verificar estado" },
+ lt: { whatsappNumber:"WhatsApp numeris", trackReference:"Įveskite savo nuorodos numerį", trackButton:"Tikrinti būseną" },
+ cs: { whatsappNumber:"Číslo WhatsApp", trackReference:"Zadejte své referenční číslo", trackButton:"Zkontrolovat stav" },
+ hr: { whatsappNumber:"WhatsApp broj", trackReference:"Unesite referentni broj", trackButton:"Provjeri status" },
+ nl: { whatsappNumber:"WhatsApp-nummer", trackReference:"Voer uw referentienummer in", trackButton:"Status controleren" },
+ pl: { whatsappNumber:"Numer WhatsApp", trackReference:"Wpisz numer referencyjny", trackButton:"Sprawdź status" },
+ sk: { whatsappNumber:"Číslo WhatsApp", trackReference:"Zadajte referenčné číslo", trackButton:"Skontrolovať stav" },
+ ro: { whatsappNumber:"Număr WhatsApp", trackReference:"Introduceți numărul de referință", trackButton:"Verificați statusul" }
+};
+Object.keys(additionalTranslations).forEach(lang => Object.assign(translations[lang], additionalTranslations[lang]));
+
 
 /* DETECT VISITOR LANGUAGE */
 /* LANGUAGE SELECTION */
