@@ -723,6 +723,8 @@ async function openApplicationDetails(id) {
         escapeHtml(offer.id) + "'>Copier le message client</button>" +
         (offer.status === "draft" ? " <button type='button' class='gold confirm-offer-sent' data-offer-id='" +
         escapeHtml(offer.id) + "'>Confirmer l’envoi</button>" : "") +
+        (offer.status === "sent" ? " <button type='button' class='dark create-offer-link' data-offer-id='" +
+        escapeHtml(offer.id) + "'>Créer un lien sécurisé client</button>" : "") +
         "</div></article>"
       ).join("") || "<p class='muted'>Aucune offre pour ce dossier.</p>";
 
@@ -763,6 +765,50 @@ async function openApplicationDetails(id) {
             offerMessage.textContent = "Copie impossible sur cet appareil. Vérifiez les autorisations du navigateur.";
             offerMessage.className = "status-msg bad";
           }
+        });
+      });
+
+      list.querySelectorAll(".create-offer-link").forEach(button => {
+        button.addEventListener("click", async () => {
+          const offer = offers.find(item => item.id === button.dataset.offerId);
+          if (!offer || offer.status !== "sent") return;
+          const user = userResult.data?.user;
+          if (!user) {
+            offerMessage.textContent = "Session administrateur introuvable.";
+            offerMessage.className = "status-msg bad";
+            return;
+          }
+          if (offer.valid_until && offer.valid_until < new Date().toISOString().slice(0,10)) {
+            offerMessage.textContent = "Cette offre est expirée. Modifiez sa validité avant de créer un lien.";
+            offerMessage.className = "status-msg bad";
+            return;
+          }
+          const bytes = crypto.getRandomValues(new Uint8Array(32));
+          const accessKey = Array.from(bytes, b => b.toString(16).padStart(2,"0")).join("");
+          const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(accessKey));
+          const tokenHash = Array.from(new Uint8Array(digest), b => b.toString(16).padStart(2,"0")).join("");
+          button.disabled = true;
+          const {error} = await db.from("loan_offers")
+            .update({access_token_hash:tokenHash})
+            .eq("id",offer.id).eq("status","sent");
+          if (error) {
+            console.error("offer access key error:",error);
+            offerMessage.textContent = "Impossible de créer le lien sécurisé.";
+            offerMessage.className = "status-msg bad";
+            button.disabled = false;
+            return;
+          }
+          const link = "https://www.torofinancegroup.com/status.html?offer=" +
+            encodeURIComponent(offer.offer_reference) + "&key=" + accessKey;
+          try {
+            await navigator.clipboard.writeText(link);
+            offerMessage.textContent = "Lien sécurisé copié. Transmettez-le uniquement au client concerné. La création d’un nouveau lien invalide le précédent.";
+            offerMessage.className = "status-msg ok";
+          } catch (error) {
+            offerMessage.textContent = "Lien créé, mais copie impossible. Réessayez depuis un navigateur autorisant le presse-papiers.";
+            offerMessage.className = "status-msg bad";
+          }
+          button.disabled = false;
         });
       });
 
