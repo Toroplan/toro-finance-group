@@ -754,6 +754,27 @@ translations.sk = {"solutions":"Riešenia","process":"Postup","applyNav":"Žiado
 
 translations.ro = {"solutions":"Soluții","process":"Proces","applyNav":"Solicitare","track":"Status","heroTitle":"Soluții de finanțare pentru proiectele dumneavoastră.","heroLead":"O experiență digitală simplă pentru prezentarea proiectului, trimiterea unei pre-solicitări de finanțare și urmărirea statusului acesteia.","applyButton":"Trimite o solicitare","solutionsButton":"Soluțiile noastre","notice":"Site informativ și de pre-solicitare. Orice decizie de finanțare este condiționată de analiza dosarului și de criteriile aplicabile.","heroCardTitle":"Forță. Viziune. Performanță.","heroCardText":"O abordare structurată, transparentă și orientată spre proiect.","servicesEyebrow":"SOLUȚIILE NOASTRE","servicesTitle":"Finanțare pentru obiective diferite","s1":"Finanțare personală","s1d":"Pentru nevoi personale și proiecte de zi cu zi.","s2":"Finanțare pentru afaceri","s2d":"Pentru susținerea activității, investițiilor sau capitalului de lucru.","s3":"Finanțare imobiliară","s3d":"Pentru achiziții și investiții imobiliare.","s4":"Finanțare auto","s4d":"Pentru achiziția unui vehicul, conform condițiilor aplicabile.","s5":"Proiect și investiție","s5d":"Pentru solicitări de finanțare legate de un proiect specific.","processEyebrow":"PROCES","processTitle":"În 3 pași","p1":"Solicitarea dumneavoastră","p1d":"Prezentați profilul și nevoile de finanțare.","p2":"Analiza dosarului","p2d":"Informațiile sunt analizate conform criteriilor aplicabile.","p3":"Răspuns","p3d":"Veți primi un răspuns sau o solicitare de informații suplimentare.","applyEyebrow":"PRE-SOLICITARE","applyTitle":"Prezentați proiectul dumneavoastră","firstName":"Prenume","lastName":"Nume","email":"E-mail","country":"Țară","product":"Finanțare","amount":"Suma solicitată","consent":"Sunt de acord ca aceste informații să fie utilizate pentru procesarea acestei pre-solicitări.","submit":"Trimite pre-solicitarea","whatsapp":"Contactați Toro Finance Group pe WhatsApp","france":"Franța","belgium":"Belgia","germany":"Germania","italy":"Italia","lithuania":"Lituania","spain":"Spania","portugal":"Portugalia","other":"Altă țară","personal":"Finanțare personală","business":"Finanțare pentru afaceri","realestate":"Finanțare imobiliară","auto":"Finanțare auto","project":"Proiect / investiție","simulation":"SIMULARE","requested":"Suma solicitată","simulationNote":"Această estimare este orientativă și nu constituie o ofertă de credit.","trackEyebrow":"STATUS","trackTitle":"Solicitarea dumneavoastră","reference":"Referință","productLabel":"Produs","amountLabel":"Sumă","statusLabel":"Status","noApplication":"Nicio solicitare","trackNote":"Statusul afișat este păstrat doar în acest browser.","footerNote":"Prin acest site nu se încheie automat niciun contract de credit."};
 
+const trustTranslations = {
+fr:["Processus de demande structuré","Suivi de votre demande","Expérience multilingue"],
+de:["Strukturierter Antragsprozess","Verfolgung Ihres Antrags","Mehrsprachige Nutzung"],
+en:["Structured application process","Application tracking","Multilingual experience"],
+es:["Proceso de solicitud estructurado","Seguimiento de la solicitud","Experiencia multilingüe"],
+it:["Procedura di richiesta strutturata","Monitoraggio della richiesta","Esperienza multilingue"],
+pt:["Processo de solicitação estruturado","Acompanhamento do pedido","Experiência multilíngue"],
+lt:["Struktūruotas paraiškos procesas","Paraiškos stebėjimas","Daugiakalbė patirtis"],
+cs:["Strukturovaný proces žádosti","Sledování žádosti","Vícejazyčné prostředí"],
+hr:["Strukturirani postupak prijave","Praćenje zahtjeva","Višejezično iskustvo"],
+nl:["Gestructureerd aanvraagproces","Aanvraag volgen","Meertalige ervaring"],
+pl:["Uporządkowany proces składania wniosku","Śledzenie wniosku","Obsługa wielu języków"],
+sk:["Štruktúrovaný proces žiadosti","Sledovanie žiadosti","Viacjazyčné prostredie"],
+ro:["Proces structurat de solicitare","Urmărirea solicitării","Experiență multilingvă"]
+};
+Object.keys(trustTranslations).forEach(lang=>{
+ translations[lang].trust1=trustTranslations[lang][0];
+ translations[lang].trust2=trustTranslations[lang][1];
+ translations[lang].trust3=trustTranslations[lang][2];
+});
+
 /* DETECT VISITOR LANGUAGE */
 /* LANGUAGE SELECTION */
 
