@@ -141,7 +141,12 @@ const messages = {
         underReview: "U obradi",
         approved: "Odobreno",
         declined: "Odbijeno"
-       }
+       },
+    cs: {sending:"Odesílání žádosti…",success:"Žádost byla úspěšně odeslána.",error:"Žádost se nepodařilo odeslat. Zkuste to prosím znovu.",checking:"Kontrola žádosti…",found:"Žádost byla nalezena.",notFound:"Pro toto referenční číslo nebyla nalezena žádná žádost.",whatsappNumber:"Číslo WhatsApp",pending:"Čeká na vyřízení",underReview:"V posuzování",approved:"Schváleno",declined:"Zamítnuto"},
+    nl: {sending:"Aanvraag wordt verzonden…",success:"Aanvraag succesvol verzonden.",error:"De aanvraag kon niet worden verzonden. Probeer het opnieuw.",checking:"Aanvraag controleren…",found:"Aanvraag gevonden.",notFound:"Geen aanvraag gevonden met deze referentie.",whatsappNumber:"WhatsApp-nummer",pending:"In afwachting",underReview:"In beoordeling",approved:"Goedgekeurd",declined:"Afgewezen"},
+    pl: {sending:"Wysyłanie wniosku…",success:"Wniosek został wysłany.",error:"Nie udało się wysłać wniosku. Spróbuj ponownie.",checking:"Sprawdzanie wniosku…",found:"Znaleziono wniosek.",notFound:"Nie znaleziono wniosku o podanym numerze referencyjnym.",whatsappNumber:"Numer WhatsApp",pending:"Oczekuje",underReview:"W trakcie rozpatrywania",approved:"Zatwierdzono",declined:"Odrzucono"},
+    sk: {sending:"Odosielanie žiadosti…",success:"Žiadosť bola úspešne odoslaná.",error:"Žiadosť sa nepodarilo odoslať. Skúste to znova.",checking:"Kontrola žiadosti…",found:"Žiadosť bola nájdená.",notFound:"Pre toto referenčné číslo sa nenašla žiadna žiadosť.",whatsappNumber:"Číslo WhatsApp",pending:"Čaká na vybavenie",underReview:"V posudzovaní",approved:"Schválené",declined:"Zamietnuté"},
+    ro: {sending:"Se trimite solicitarea…",success:"Solicitarea a fost trimisă cu succes.",error:"Solicitarea nu a putut fi trimisă. Încercați din nou.",checking:"Se verifică solicitarea…",found:"Solicitare găsită.",notFound:"Nu a fost găsită nicio solicitare cu această referință.",whatsappNumber:"Număr WhatsApp",pending:"În așteptare",underReview:"În analiză",approved:"Aprobată",declined:"Respinsă"}
 };
 
 
