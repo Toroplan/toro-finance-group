@@ -308,8 +308,46 @@ const statusLabels = {
     }
 
 };
+const pageTranslations = {
+    fr: {
+        title: "Suivi de votre demande",
+        intro: "Entrez la référence qui vous a été communiquée après l'envoi de votre demande afin de consulter son état.",
+        reference: "Référence",
+        placeholder: "Ex. TF-2026-123456",
+        button: "Consulter le dossier",
+        note: "Le statut affiché correspond aux informations enregistrées dans le système de Toro Finance Group. Une décision de financement reste soumise à l'étude du dossier et aux critères applicables."
+    },
+    hr: {
+        title: "Praćenje vašeg zahtjeva",
+        intro: "Unesite referentni broj koji ste dobili nakon slanja zahtjeva kako biste provjerili njegov status.",
+        reference: "Referentni broj",
+        placeholder: "Npr. TF-2026-123456",
+        button: "Provjeri zahtjev",
+        note: "Prikazani status odgovara informacijama pohranjenima u sustavu Toro Finance Group. Odluka o financiranju ovisi o procjeni zahtjeva i primjenjivim kriterijima."
+    }
+};
+function applyPageTranslations() {
+    const currentLanguage =
+        languageSelector ? languageSelector.value : "fr";
 
+    const t =
+        pageTranslations[currentLanguage] || pageTranslations.fr;
 
+    document.documentElement.lang = currentLanguage;
+
+    document.getElementById("statusTitle").textContent = t.title;
+    document.getElementById("statusIntro").textContent = t.intro;
+    document.getElementById("referenceLabel").textContent = t.reference;
+    referenceInput.placeholder = t.placeholder;
+    document.getElementById("submitButtonText").textContent = t.button;
+    document.getElementById("statusNote").textContent = t.note;
+}
+
+if (languageSelector) {
+    languageSelector.addEventListener("change", applyPageTranslations);
+}
+
+applyPageTranslations();
 function escapeHtml(value) {
 
     return String(value ?? "")
