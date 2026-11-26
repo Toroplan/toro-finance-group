@@ -76,22 +76,6 @@
       </section>
     </section>
   
-    <section id="detailPanel" class="detail-overlay hidden" aria-modal="true" role="dialog" aria-labelledby="detailTitle">
-      <div class="detail-card">
-        <div class="detail-head">
-          <div><h2 id="detailTitle">Fiche du dossier</h2><p id="detailSubtitle" class="muted"></p></div>
-          <button id="closeDetailButton" class="light" type="button">Fermer</button>
-        </div>
-        <div id="detailContent" class="detail-grid"></div>
-        <div class="detail-columns">
-          <section><h3>Notes internes</h3><form id="noteForm" class="note-form">
-            <textarea id="noteInput" maxlength="5000" required placeholder="Ajouter une note interne…"></textarea>
-            <button class="gold" type="submit">Enregistrer la note</button>
-          </form><div id="notesList"></div></section>
-          <section><h3>Historique des statuts</h3><div id="historyList"></div></section>
-        </div>
-      </div>
-    </section>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
