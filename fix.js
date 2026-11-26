@@ -128,8 +128,20 @@ const messages = {
         underReview: "En cours d'étude",
         approved: "Approuvé",
         declined: "Refusé"
-    }
-
+    },
+       hr: {
+        sending: "Slanje zahtjeva…",
+        success: "Zahtjev je uspješno poslan.",
+        error: "Zahtjev nije moguće poslati. Pokušajte ponovno.",
+        checking: "Provjera zahtjeva…",
+        found: "Zahtjev je pronađen.",
+        notFound: "Nije pronađen zahtjev s ovom referencom.",
+        whatsappNumber: "WhatsApp broj",
+        pending: "Na čekanju",
+        underReview: "U obradi",
+        approved: "Odobreno",
+        declined: "Odbijeno"
+       }
 };
 
 
