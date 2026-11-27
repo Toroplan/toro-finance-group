@@ -296,6 +296,22 @@ const submitButton =
 const languageSelector =
     document.getElementById("statusLanguageSelector");
 const statusLanguages = ["fr","de","en","es","it","pt","lt","cs","hr","nl","pl","sk","ro"];
+const offerUi = {
+ fr:["Proposition de financement","Référence","Capital proposé","Taux annuel","Durée","Mensualité indicative","Total intérêts","Frais","Total à rembourser","Valable jusqu’au","Échéancier détaillé","Mois","Échéance","Capital","Intérêts","Solde","Cette proposition est soumise à votre examen et à votre acceptation expresse. La consultation de cette page ne vaut pas acceptation du financement ni engagement de déblocage des fonds."],
+ de:["Finanzierungsangebot","Referenz","Angebotener Kapitalbetrag","Jahreszinssatz","Laufzeit","Voraussichtliche Monatsrate","Gesamtzinsen","Gebühren","Gesamtrückzahlung","Gültig bis","Detaillierter Tilgungsplan","Monat","Rate","Kapital","Zinsen","Restschuld","Dieses Angebot unterliegt Ihrer Prüfung und ausdrücklichen Annahme. Die Anzeige dieser Seite bedeutet weder die Annahme der Finanzierung noch eine Verpflichtung zur Auszahlung."],
+ en:["Financing offer","Reference","Proposed principal","Annual interest rate","Term","Indicative monthly payment","Total interest","Fees","Total repayment","Valid until","Detailed repayment schedule","Month","Payment","Principal","Interest","Balance","This offer is subject to your review and express acceptance. Viewing this page does not constitute acceptance of financing or a commitment to disburse funds."],
+ es:["Propuesta de financiación","Referencia","Capital propuesto","Tipo de interés anual","Plazo","Cuota mensual orientativa","Intereses totales","Comisiones","Total a reembolsar","Válida hasta","Calendario de amortización detallado","Mes","Cuota","Capital","Intereses","Saldo","Esta propuesta está sujeta a su revisión y aceptación expresa. Consultar esta página no constituye la aceptación de la financiación ni un compromiso de desembolso."],
+ it:["Proposta di finanziamento","Riferimento","Capitale proposto","Tasso annuo","Durata","Rata mensile indicativa","Interessi totali","Commissioni","Totale da rimborsare","Valida fino al","Piano di ammortamento dettagliato","Mese","Rata","Capitale","Interessi","Saldo","Questa proposta è soggetta alla sua valutazione e accettazione esplicita. La consultazione di questa pagina non costituisce accettazione del finanziamento né impegno all'erogazione."],
+ pt:["Proposta de financiamento","Referência","Capital proposto","Taxa de juro anual","Prazo","Prestação mensal indicativa","Juros totais","Taxas","Total a reembolsar","Válida até","Plano de amortização detalhado","Mês","Prestação","Capital","Juros","Saldo","Esta proposta está sujeita à sua análise e aceitação expressa. A consulta desta página não constitui aceitação do financiamento nem compromisso de desembolso."],
+ lt:["Finansavimo pasiūlymas","Nuoroda","Siūloma pagrindinė suma","Metinė palūkanų norma","Terminas","Orientacinė mėnesio įmoka","Iš viso palūkanų","Mokesčiai","Iš viso grąžinti","Galioja iki","Išsamus grąžinimo grafikas","Mėnuo","Įmoka","Pagrindinė suma","Palūkanos","Likutis","Šis pasiūlymas turi būti jūsų peržiūrėtas ir aiškiai priimtas. Šio puslapio peržiūra nereiškia finansavimo priėmimo ar įsipareigojimo išmokėti lėšas."],
+ cs:["Nabídka financování","Reference","Navrhovaná jistina","Roční úroková sazba","Doba splácení","Orientační měsíční splátka","Celkové úroky","Poplatky","Celkem k úhradě","Platnost do","Podrobný splátkový kalendář","Měsíc","Splátka","Jistina","Úroky","Zůstatek","Tato nabídka podléhá vašemu posouzení a výslovnému přijetí. Zobrazení této stránky neznamená přijetí financování ani závazek k vyplacení prostředků."],
+ hr:["Ponuda financiranja","Referenca","Predložena glavnica","Godišnja kamatna stopa","Rok","Okvirna mjesečna rata","Ukupne kamate","Naknade","Ukupno za otplatu","Vrijedi do","Detaljan plan otplate","Mjesec","Rata","Glavnica","Kamate","Preostali iznos","Ova ponuda podliježe vašem pregledu i izričitom prihvaćanju. Pregled ove stranice ne znači prihvaćanje financiranja niti obvezu isplate sredstava."],
+ nl:["Financieringsvoorstel","Referentie","Voorgesteld kredietbedrag","Jaarlijks rentepercentage","Looptijd","Indicatieve maandelijkse betaling","Totale rente","Kosten","Totaal terug te betalen","Geldig tot","Gedetailleerd aflossingsschema","Maand","Betaling","Hoofdsom","Rente","Restsaldo","Dit voorstel is onderworpen aan uw beoordeling en uitdrukkelijke aanvaarding. Het bekijken van deze pagina betekent niet dat u de financiering aanvaardt of dat uitbetaling is toegezegd."],
+ pl:["Oferta finansowania","Numer referencyjny","Proponowany kapitał","Roczne oprocentowanie","Okres","Orientacyjna rata miesięczna","Łączne odsetki","Opłaty","Łączna kwota do spłaty","Ważna do","Szczegółowy harmonogram spłat","Miesiąc","Rata","Kapitał","Odsetki","Saldo","Oferta wymaga zapoznania się z nią i wyraźnej akceptacji. Wyświetlenie tej strony nie oznacza akceptacji finansowania ani zobowiązania do wypłaty środków."],
+ sk:["Ponuka financovania","Referencia","Navrhovaná istina","Ročná úroková sadzba","Doba splácania","Orientačná mesačná splátka","Celkové úroky","Poplatky","Celkom na úhradu","Platnosť do","Podrobný splátkový kalendár","Mesiac","Splátka","Istina","Úroky","Zostatok","Táto ponuka podlieha vášmu posúdeniu a výslovnému prijatiu. Zobrazenie tejto stránky neznamená prijatie financovania ani záväzok vyplatiť finančné prostriedky."],
+ ro:["Ofertă de finanțare","Referință","Capital propus","Rata anuală a dobânzii","Durată","Rată lunară orientativă","Dobândă totală","Comisioane","Total de rambursat","Valabilă până la","Grafic detaliat de rambursare","Lună","Rată","Capital","Dobândă","Sold","Această ofertă este supusă examinării și acceptării dumneavoastră exprese. Consultarea acestei pagini nu reprezintă acceptarea finanțării și nici un angajament de plată."]
+};
+let activeClientOffer = null;
 let initialStatusLanguage = "en";
 try {
     const savedStatusLanguage = localStorage.getItem("toroLanguage");
@@ -325,6 +341,7 @@ if(languageSelector){
  languageSelector.addEventListener('change',function(){
   try{localStorage.setItem("toroLanguage",this.value);}catch(error){}
   applyPageTranslations();
+  if(activeClientOffer) showClientOffer(activeClientOffer);
  });
 }
 applyPageTranslations();
@@ -401,25 +418,28 @@ function showResult(application) {
 
 
 function showClientOffer(offer) {
+ activeClientOffer = offer;
+ const lang = languageSelector ? languageSelector.value : initialStatusLanguage;
+ const t = offerUi[lang] || offerUi.en;
  const rows = Array.isArray(offer.schedule) ? offer.schedule : [];
  const schedule = rows.map(row =>
    '<tr><td>'+escapeHtml(row.month)+'</td><td>'+formatAmount(row.payment)+'</td><td>'+
    formatAmount(row.principal)+'</td><td>'+formatAmount(row.interest)+'</td><td>'+
    formatAmount(row.remaining_balance)+'</td></tr>'
  ).join("");
- result.innerHTML = '<div class="result-card"><h2>Proposition de financement</h2>'+
-   '<div class="row"><span class="label">Référence</span><span class="value">'+escapeHtml(offer.offer_reference)+'</span></div>'+
-   '<div class="row"><span class="label">Capital proposé</span><span class="value">'+formatAmount(offer.principal)+'</span></div>'+
-   '<div class="row"><span class="label">Taux annuel</span><span class="value">'+escapeHtml(offer.annual_interest_rate)+' %</span></div>'+
-   '<div class="row"><span class="label">Durée</span><span class="value">'+escapeHtml(offer.duration_months)+' mois</span></div>'+
-   '<div class="row"><span class="label">Mensualité indicative</span><span class="value">'+formatAmount(offer.monthly_payment)+'</span></div>'+
-   '<div class="row"><span class="label">Total intérêts</span><span class="value">'+formatAmount(offer.total_interest)+'</span></div>'+
-   '<div class="row"><span class="label">Frais</span><span class="value">'+formatAmount(offer.total_fees)+'</span></div>'+
-   '<div class="row"><span class="label">Total à rembourser</span><span class="value">'+formatAmount(offer.total_repayable)+'</span></div>'+
-   '<div class="row"><span class="label">Valable jusqu’au</span><span class="value">'+escapeHtml(offer.valid_until||"Non précisé")+'</span></div>'+
-   (offer.disclosures ? '<p>'+escapeHtml(offer.disclosures).replaceAll("\n","<br>")+'</p>' : '')+
-   '<h3>Échéancier détaillé</h3><div style="overflow-x:auto"><table><thead><tr><th>Mois</th><th>Échéance</th><th>Capital</th><th>Intérêts</th><th>Solde</th></tr></thead><tbody>'+schedule+'</tbody></table></div>'+
-   '<p class="note">Cette proposition est soumise à votre examen et à votre acceptation expresse. La consultation de cette page ne vaut pas acceptation du financement ni engagement de déblocage des fonds.</p></div>';
+ result.innerHTML = '<div class="result-card"><h2>'+t[0]+'</h2>'+
+   '<div class="row"><span class="label">'+t[1]+'</span><span class="value">'+escapeHtml(offer.offer_reference)+'</span></div>'+
+   '<div class="row"><span class="label">'+t[2]+'</span><span class="value">'+formatAmount(offer.principal)+'</span></div>'+
+   '<div class="row"><span class="label">'+t[3]+'</span><span class="value">'+escapeHtml(offer.annual_interest_rate)+' %</span></div>'+
+   '<div class="row"><span class="label">'+t[4]+'</span><span class="value">'+escapeHtml(offer.duration_months)+' '+(lang==="fr"?"mois":lang==="en"?"months":lang==="de"?"Monate":lang==="es"?"meses":lang==="it"?"mesi":lang==="pt"?"meses":lang==="lt"?"mėn.":lang==="cs"?"měsíců":lang==="hr"?"mjeseci":lang==="nl"?"maanden":lang==="pl"?"miesięcy":lang==="sk"?"mesiacov":"luni")+'</span></div>'+
+   '<div class="row"><span class="label">'+t[5]+'</span><span class="value">'+formatAmount(offer.monthly_payment)+'</span></div>'+
+   '<div class="row"><span class="label">'+t[6]+'</span><span class="value">'+formatAmount(offer.total_interest)+'</span></div>'+
+   '<div class="row"><span class="label">'+t[7]+'</span><span class="value">'+formatAmount(offer.total_fees)+'</span></div>'+
+   '<div class="row"><span class="label">'+t[8]+'</span><span class="value">'+formatAmount(offer.total_repayable)+'</span></div>'+
+   '<div class="row"><span class="label">'+t[9]+'</span><span class="value">'+escapeHtml(offer.valid_until||"—")+'</span></div>'+
+   (offer.disclosures ? '<p>'+escapeHtml(offer.disclosures).replaceAll("\\n","<br>")+'</p>' : '')+
+   '<h3>'+t[10]+'</h3><div style="overflow-x:auto"><table><thead><tr><th>'+t[11]+'</th><th>'+t[12]+'</th><th>'+t[13]+'</th><th>'+t[14]+'</th><th>'+t[15]+'</th></tr></thead><tbody>'+schedule+'</tbody></table></div>'+
+   '<p class="note">'+t[16]+'</p></div>';
 }
 
 async function loadSecureOfferFromLink() {
