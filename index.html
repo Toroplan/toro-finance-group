@@ -35,7 +35,7 @@
     <a href="status.html" data-t="track">Status</a>
 </nav>
 <div class="language-control">
-    <label for="languageSelector">Langue :</label>
+    <label for="languageSelector" data-t="languageLabel">Langue :</label>
     <select id="languageSelector">
         <option value="fr">🇫🇷 Français</option>
         <option value="de">🇩🇪 Deutsch</option>
@@ -515,37 +515,37 @@
         SIMULATEUR DE CRÉDIT
     </p>
 
-    <h3>Estimation de votre financement</h3>
+    <h3 data-t="simTitle">Estimation de votre financement</h3>
 
     <div id="estimateAmount">0 €</div>
 
-    <p>Montant demandé</p>
+    <p data-t="simAmount">Montant demandé</p>
 
     <div class="simulation-results">
 
         <div>
-            <span>Mensualité estimée</span>
+            <span data-t="simMonthly">Mensualité estimée</span>
             <strong id="monthlyPayment">0 €</strong>
         </div>
 
         <div>
-            <span>Taux annuel</span>
+            <span data-t="simRate">Taux annuel</span>
             <strong>4 %</strong>
         </div>
 
         <div>
-            <span>Total des intérêts</span>
+            <span data-t="simInterest">Total des intérêts</span>
             <strong id="totalInterest">0 €</strong>
         </div>
 
         <div>
-            <span>Total à rembourser</span>
+            <span data-t="simTotal">Total à rembourser</span>
             <strong id="totalRepayment">0 €</strong>
         </div>
 
     </div>
 
-    <p class="small">
+    <p class="small" data-t="simNote">
         Simulation indicative à taux annuel fixe de 4 %,
         selon la méthode des mensualités constantes.
         Elle ne constitue pas une offre de crédit.
