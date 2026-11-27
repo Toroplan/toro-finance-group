@@ -802,6 +802,26 @@ Object.keys(additionalTranslations).forEach(lang => Object.assign(translations[l
 const supportedLanguages = [
 "fr", "de", "en", "es", "it", "pt", "lt", "cs", "hr", "nl", "pl", "sk", "ro"];
 
+// Complete the shared labels used by the homepage in every supported language.
+const sharedLabels = {
+ fr:{trust1:"Processus de demande structuré",trust2:"Suivi de votre demande",trust3:"Expérience multilingue",whatsappNumber:"Numéro WhatsApp",trackReference:"Saisissez votre référence",trackButton:"Consulter le statut"},
+ de:{trust1:"Strukturierter Antragsprozess",trust2:"Verfolgung Ihres Antrags",trust3:"Mehrsprachige Nutzung",whatsappNumber:"WhatsApp-Nummer",trackReference:"Geben Sie Ihre Referenz ein",trackButton:"Status prüfen"},
+ en:{trust1:"Structured application process",trust2:"Application tracking",trust3:"Multilingual experience",whatsappNumber:"WhatsApp number",trackReference:"Enter your reference",trackButton:"Check status"},
+ es:{trust1:"Proceso de solicitud estructurado",trust2:"Seguimiento de la solicitud",trust3:"Experiencia multilingüe",whatsappNumber:"Número de WhatsApp",trackReference:"Introduzca su referencia",trackButton:"Consultar estado"},
+ it:{trust1:"Procedura di richiesta strutturata",trust2:"Monitoraggio della richiesta",trust3:"Esperienza multilingue",whatsappNumber:"Numero WhatsApp",trackReference:"Inserisci il tuo riferimento",trackButton:"Verifica lo stato"},
+ pt:{trust1:"Processo de solicitação estruturado",trust2:"Acompanhamento do pedido",trust3:"Experiência multilíngue",whatsappNumber:"Número de WhatsApp",trackReference:"Introduza a sua referência",trackButton:"Consultar estado"},
+ lt:{trust1:"Struktūruotas paraiškos procesas",trust2:"Paraiškos stebėjimas",trust3:"Daugiakalbė patirtis",whatsappNumber:"WhatsApp numeris",trackReference:"Įveskite savo nuorodos numerį",trackButton:"Tikrinti būseną"},
+ cs:{trust1:"Strukturovaný proces žádosti",trust2:"Sledování žádosti",trust3:"Vícejazyčné prostředí",whatsappNumber:"Číslo WhatsApp",trackReference:"Zadejte referenční číslo",trackButton:"Zkontrolovat stav"},
+ hr:{trust1:"Strukturirani postupak prijave",trust2:"Praćenje zahtjeva",trust3:"Višejezično iskustvo",whatsappNumber:"WhatsApp broj",trackReference:"Unesite referentni broj",trackButton:"Provjeri status"},
+ nl:{trust1:"Gestructureerd aanvraagproces",trust2:"Aanvraag volgen",trust3:"Meertalige ervaring",whatsappNumber:"WhatsApp-nummer",trackReference:"Voer uw referentienummer in",trackButton:"Status bekijken"},
+ pl:{trust1:"Uporządkowany proces składania wniosku",trust2:"Śledzenie wniosku",trust3:"Wielojęzyczna obsługa",whatsappNumber:"Numer WhatsApp",trackReference:"Wprowadź numer referencyjny",trackButton:"Sprawdź status"},
+ sk:{trust1:"Štruktúrovaný proces žiadosti",trust2:"Sledovanie žiadosti",trust3:"Viacjazyčné prostredie",whatsappNumber:"Číslo WhatsApp",trackReference:"Zadajte referenčné číslo",trackButton:"Skontrolovať stav"},
+ ro:{trust1:"Proces structurat de solicitare",trust2:"Urmărirea solicitării",trust3:"Experiență multilingvă",whatsappNumber:"Număr WhatsApp",trackReference:"Introduceți numărul de referință",trackButton:"Verificați statusul"}
+};
+Object.keys(sharedLabels).forEach(function (lang) {
+    Object.assign(translations[lang], sharedLabels[lang]);
+});
+
 function detectLanguage() {
     const savedLanguage = localStorage.getItem("toroLanguage");
 
